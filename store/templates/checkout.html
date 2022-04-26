@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <title>Checkout</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <style>
+
+      body{
+        font-family: 'Open Sans', sans-serif;
+    }
+
+
+      a{
+        color: black;
+      }
+
+      a:hover{
+        color: black;
+      }
+
+      #Logout{
+        color: red;
+      }
+
+      .paypal-button-label-container{
+        display: none;
+      }
+      
+
+    </style>
+    
+  {% if request.user.is_authenticated %}
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      Bootstrap
+    </a>
+    <form class="form-inline" action="{% url 'cart' %}">
+      <div class="dropdown show">
+        <a class="dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ user }}
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Cart</a>
+          <a class="dropdown-item" id="Logout" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+      <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
+    </form>
+  </nav>
+  {% else %}
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      Bootstrap
+    </a>
+    <form class="form-inline" action="{% url 'cart' %}">
+    <a href="{% url 'login' %}"> Login</a>
+      <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
+    </form>
+  </nav>
+  {% endif %}
+
+
+</header>
+<br>
+    <br>
+    <br>
+
+
+    <div class="col d-flex justify-content-center">
+      <div class="card" style="width: 38rem; margin-left: 100px; margin-right: 35px;">
+        <div class="card-body">
+          <br>
+          <h5 style="margin-left: 220px;">Billing Details</h5>
+          <br>
+          <center>Paying: {{ total_price }}</center>
+          <br>
+          <br>
+
+          <center><div class="col-md-8 order-md-1"></center>
+            <form class="needs-validation" novalidate="">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName">First name</label>
+                  <input type="text" class="form-control" name="name" id="first" placeholder="" value="" required="">
+                  <div class="invalid-feedback">
+                    Valid first name is required.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName">Last name</label>
+                  <input type="text" class="form-control" id="last" placeholder="" value="" required="">
+                  <div class="invalid-feedback">
+                    Valid last name is required.
+                  </div>
+                </div>
+              </div>
+      
+             
+      
+              <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                <div class="invalid-feedback">
+                  Please enter a valid email address for shipping updates.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email">Phone</label>
+                <input type="phone" class="form-control" id="phone" placeholder="+91 ">
+                <div class="invalid-feedback">
+                  Please enter a valid email address for shipping updates.
+                </div>
+              </div>
+      
+              <div class="mb-3">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required="">
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+      
+
+      
+              <div class="row">
+                <div class="col-md-5 mb-3">
+                  <label for="country">Country</label>
+                  <select class="custom-select d-block w-100" id="country" required="">
+                    <option>India</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please select a valid country.
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="state">State</label>
+                  <select class="custom-select d-block w-100" name="city" id="state" required="">
+                  <option>Andaman and Nicobar (UT)</option>
+                  <option>Arunachal Pradesh</option>
+                  <option>Andhra Pradesh</option>
+                  <option>Assam</option>
+                  <option>Bihar</option>
+                  <option>Chandigarh (UT)</option>
+                  <option>Chhattisgarh</option>
+                  <option>Dadra and Nagar Haveli (UT)</option>
+                  <option>Daman and Diu (UT)</option>
+                  <option>Delhi</option>
+                  <option>Goa</option>
+                  <option>Gujarat</option>
+                  <option>Haryana</option>
+                  <option>Himachal Pradesh</option>
+                  <option>Jammu and Kashmir</option>
+                  <option>Jharkhand</option>
+                  <option>Karnataka</option>
+                  <option>Kerala</option>
+                  <option>Lakshadweep (UT)</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Maharashtra</option>
+                  <option>Manipur</option>
+                  <option>Meghalaya</option>
+                  <option>Mizoram</option>
+                  <option>Nagaland</option>
+                  <option>Orissa</option>
+                  <option>Puducherry (UT)</option>
+                  <option>Punjab</option>
+                  <option>Rajasthan</option>
+                  <option>Sikkim</option>
+                  <option>Tamil Nadu</option>
+                  <option>Telangana</option>
+                  <option>Tripura</option>
+                  <option>Uttar Pradesh</option>
+                  <option>Uttarakhand</option>
+                  <option>West Bengal</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please provide a valid state.
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label for="zip">Zip</label>
+                  <input type="text" class="form-control" id="zip" placeholder="" required="">
+                  <div class="invalid-feedback">
+                    Zip code required.
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="clicked()" id="btn">test</button>
+              <div id="test" style="display: none;">
+              <div id="paypal-button-container">
+              
+              </div>
+                <!-- Include the PayPal JavaScript SDK -->
+                <script src="https://www.paypal.com/sdk/js?client-id=AWOJXWE0FEern3ixCeeF7tsODtkVeQASnUKaeO145wM9ceJwGbxIRAsqAPGz94x5TyZbcN9Lf0cs_hch&currency=USD"></script>
+                  
+                <script>
+
+function clicked(){
+  document.getElementById("test").style.display = "";
+  document.getElementById('btn').style.display = 'none'
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+
+  console.log(csrftoken)
+
+
+
+function initPayPalButton() {
+    paypal.Buttons({
+      style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'paypal',
+
+      },
+    createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            "amount": {
+              "value": '{{ total_price }}'
+            }
+          }]
+        });
+      },
+    onApprove: function (data) {
+
+                  var addressdata = document.getElementById('address').value;
+                  var email  = document.getElementById('email').value;
+                  var phone = document.getElementById('phone').value;
+                  var first = document.getElementById('first').value;
+                  var last = document.getElementById('last').value;
+                  var zip = document.getElementById('zip').value;
+                  var statedata = document.getElementById('state').value;
+
+        var url = '/checkout'
+        return fetch(url, {
+          method: 'POST', 
+          headers: {
+            'content-type': 'application/json',
+            'X-CSRFToken': csrftoken,
+          },
+          body: JSON.stringify({
+            address: addressdata, firstname: first, emaildata: email, phonedata: phone, state: statedata, zipcode: zip
+          })
+        }).then(function () {
+
+          window.location.href = "http://127.0.0.1:8000/success/";
+
+        })
+      },
+    }).render('#paypal-button-container');
+  }
+initPayPalButton();
+
+    
+
+                
+
+                    
+                </script>
+                    
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
