@@ -130,7 +130,7 @@
       
               <div class="mb-3">
                 <label for="address">Address</label>
-                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required="">
+                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
                 <div class="invalid-feedback">
                   Please enter your shipping address.
                 </div>
@@ -211,8 +211,64 @@
                 <script>
 
 function clicked(){
-  document.getElementById("test").style.display = "";
-  document.getElementById('btn').style.display = 'none'
+                    var uaddress = document.getElementById('address').value;
+                    var uemail  = document.getElementById('email').value;
+                    var uphone = document.getElementById('phone').value;
+                    var ufirst = document.getElementById('first').value;
+                    var ulast = document.getElementById('last').value;
+                    var uzip = document.getElementById('zip').value;
+                    var ustatedata = document.getElementById('state').value;
+
+
+
+                    if (uaddress.length < 5) {
+                      alert('Please fill out all the fields!')
+                    }
+
+                  else{
+                    if (uemail.length < 1) {
+                      alert('Please fill out all the fields!')
+                    }
+
+                  else{
+                    if (uphone.length < 1) {
+                      alert('Please fill out all the fields!')
+                    }
+
+                  else{
+                    if (ufirst.length < 1) {
+                      alert('Please fill out all the fields!')
+                    }
+
+                  else{
+                    if (ulast.length < 1) {
+                      alert('Please fill out all the fields!')
+                    }
+
+                  else{
+                    if (uzip.length < 1) {
+                      alert('Please fill out all the fields!')
+                    }
+
+                  else{
+                    if (ustatedata.length < 1) {
+                      alert('Please fill out all the fields!')
+                    }
+
+                  else{
+                    document.getElementById("test").style.display = "";
+                    document.getElementById('btn').style.display = 'none'
+                  }
+                  }
+                  }
+                  }
+                  }
+                  }
+                  }
+                  
+                    
+                  
+
 }
 
 function getCookie(name) {
