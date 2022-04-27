@@ -83,9 +83,9 @@
   <section class="h-100" >
     <div class="container h-100 py-5">
       <br>
+    
   {% for item in orders %}
-  <div id="order-item">
-  <div class="row" id="myItems">
+  <div id="cart-item">
     <div class="card rounded-3 mb-4">
       <div class="card-body p-4">
         <div class="row d-flex justify-content-between align-items-center">
@@ -99,14 +99,14 @@
           <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
             <button class="btn btn-link px-2"
               onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-          
+     
             </button>
 
             <p>quantity:  {{ item.quantity }}</p>
 
             <button class="btn btn-link px-2"
               onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-          
+        
             </button>
           </div>
           <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -116,8 +116,13 @@
         </div>
       </div>
     </div>
-  </div>
 {% endfor %}
+
+<div class="card">
+  <div class="card-body">
+    <button type="submit" class="btn btn-primary btn-block btn-lg">Continue Shopping  --></button>
+  </div>
+</div>
 
 <script>
 
