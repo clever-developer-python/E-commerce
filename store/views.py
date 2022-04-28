@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from pkgutil import get_data
 from xml.parsers.expat import model
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
@@ -117,24 +118,33 @@ def delete_item(request , id ):
     return redirect('cart')
 
 def email(request):
-    code = "1"
-    o = OTP()
-    o.key = code
-    o.ip = request.META.get('REMOTE_ADDR')
-    o.user = request.user
-    o.save()
-    send_mail(
-    'Subject here',
-    f'{code}',
-    'isanamessenger@gmail.com',
-    ['ninaadr26@gmail.com'],
-    fail_silently=False,
-    )
+    if request.method == "POST":
+         code1 = random.randint(1,9)
+         code2 = random.randint(1,9)
+         code4 = random.randint(1,9)
+         code3 = random.randint(1,9)
+         code5 = random.randint(1,9)
+         code = f"{code1}{code2}{code3}{code4}{code5}"
+         print(code)
+         get_data_email = request.POST.get('email-field')
+         o = OTP()
+         o.key = code
+         o.ip = request.META.get('REMOTE_ADDR')
+         o.user = request.user
+         o.save()
+         send_mail(
+         'OTP code',
+         f'{code}',
+         'isanamessenger@gmail.com',
+         [get_data_email],
+         fail_silently=False,
+         )
 
-    g = get_email()
-    g.e_field = 'ninaadr26@gmail.com'
-    g.user = request.user
-    g.save()
+         g = get_email()
+         g.e_field = 'ninaadr26@gmail.com'
+         g.user = request.user
+         g.save()
+         return redirect('conf')
     return render(request, 'email.html')
 
 def email_sent(request):
@@ -170,11 +180,13 @@ def email_sent(request):
     return render(request, 'conf.html')
 
 
+def email_wrong(request):
+    return render(request, 'wrong.html')
+
+
 
 def checkout(request):
     if confirmed.objects.filter(user = request.user).exists():
-        if guestuser.objects.filter(name = request.user).exists():
-            return redirect('login')
         total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
         if request.method == 'POST':
             for c in ca.objects.filter(user = request.user):
