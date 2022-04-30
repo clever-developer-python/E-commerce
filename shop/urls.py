@@ -40,6 +40,7 @@ urlpatterns = [
     path('conf/', store.views.email_sent, name='conf'),
     path('wrong_ip/', store.views.ip_wrong, name='wi'),
     path('wrong_otp/', store.views.email_wrong, name='wo'),
+    path('Email_confirmed/', store.views.correct_otp, name='d'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

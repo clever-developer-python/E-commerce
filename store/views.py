@@ -213,6 +213,10 @@ def email_wrong(request):
     return render(request, 'wrong.html')
 
 
+def correct_otp(request):
+    return render(request, 'doneotp.html')
+
+
 def ip_wrong(request):
     if request.method == 'POST':
         get_key = request.POST.get('key')
