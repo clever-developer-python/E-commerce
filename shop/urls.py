@@ -38,6 +38,8 @@ urlpatterns = [
     path('order/', store.views.order, name='order'),
     path('email/', store.views.email, name='email'),
     path('conf/', store.views.email_sent, name='conf'),
+    path('wrong_ip/', store.views.ip_wrong, name='wi'),
+    path('wrong_otp/', store.views.email_wrong, name='wo'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

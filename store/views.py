@@ -155,7 +155,7 @@ def email_sent(request):
 
         else:
             print('security warning')
-            return redirect('home')
+            return redirect('wo')
         if OTP.objects.filter(ip = request.META['REMOTE_ADDR']).exists():
             print('okay')
             c = confirmed()
@@ -176,12 +176,74 @@ def email_sent(request):
 
         else:
             print('security warning')
-            return redirect('home')
+            return redirect('wi')
     return render(request, 'conf.html')
 
 
 def email_wrong(request):
+    if request.method == 'POST':
+        get_key = request.POST.get('key')
+        if OTP.objects.filter(key = get_key).exists():
+            print('okay')
+
+        else:
+            print('security warning')
+            return redirect('wo')
+        if OTP.objects.filter(ip = request.META['REMOTE_ADDR']).exists():
+            print('okay')
+            c = confirmed()
+            c.confirmation = 'yes'
+            c.user = request.user
+            c.save()
+
+            e = email_taken()
+            for gu in get_email.objects.filter(user = request.user):
+                e.email_field = gu.e_field
+                e.user = request.user
+                e.save()
+
+            
+
+
+            return redirect('checkout')
+
+        else:
+            print('security warning')
+            return redirect('wi')
     return render(request, 'wrong.html')
+
+
+def ip_wrong(request):
+    if request.method == 'POST':
+        get_key = request.POST.get('key')
+        if OTP.objects.filter(key = get_key).exists():
+            print('okay')
+
+        else:
+            print('security warning')
+            return redirect('wo')
+        if OTP.objects.filter(ip = request.META['REMOTE_ADDR']).exists():
+            print('okay')
+            c = confirmed()
+            c.confirmation = 'yes'
+            c.user = request.user
+            c.save()
+
+            e = email_taken()
+            for gu in get_email.objects.filter(user = request.user):
+                e.email_field = gu.e_field
+                e.user = request.user
+                e.save()
+
+            
+
+
+            return redirect('checkout')
+
+        else:
+            print('security warning')
+            return redirect('wi')
+    return render(request, 'ipwrong.html')
 
 
 
