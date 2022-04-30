@@ -172,7 +172,7 @@ def email_sent(request):
             
 
 
-            return redirect('checkout')
+            return redirect('d')
 
         else:
             print('security warning')
@@ -205,7 +205,7 @@ def email_wrong(request):
             
 
 
-            return redirect('checkout')
+            return redirect('d')
 
         else:
             print('security warning')
@@ -242,7 +242,7 @@ def ip_wrong(request):
             
 
 
-            return redirect('checkout')
+            return redirect('d')
 
         else:
             print('security warning')
