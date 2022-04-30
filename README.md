@@ -19,12 +19,3 @@ Css
 
 this website uses very simple code for guest users explanation for that could be found here: https://drive.google.com/file/d/1_h0y9pjqV9ZNCc1-asAjhT7c5rMcnoT7/view?usp=sharing
 
-
---for me--
-
-in conf.html add {% if ip does nbot exist %}
-
-dont let in
-
-
-{%  endfor %}
