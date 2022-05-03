@@ -62,6 +62,7 @@
       Bootstrap
     </a>
     <form class="form-inline" action="{% url 'cart' %}">
+      {% csrf_token %}
     <a href="{% url 'login' %}"> Login</a>
       <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
     </form>

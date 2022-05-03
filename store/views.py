@@ -148,6 +148,7 @@ def email(request):
     return render(request, 'email.html')
 
 def email_sent(request):
+    print(request.META['REMOTE_ADDR'])
     if request.method == 'POST':
         get_key = request.POST.get('key')
         if OTP.objects.filter(key = get_key).exists():
@@ -273,7 +274,14 @@ def checkout(request):
                 o.save()
           
                 c.delete()
-               
+                for em in email_taken.objects.filter(user = request.user):
+                    em.delete()
+                for ot in OTP.objects.filter(user = request.user):
+                    ot.delete()
+                for ge in get_email.objects.filter(user = request.user):
+                    ge.delete()
+                for con in confirmed.objects.filter(user = request.user):
+                    con.delete()
         return render(request, 'checkout.html', {'total_price':total_price})
 
     else:

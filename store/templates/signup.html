@@ -78,7 +78,7 @@
 {% endif %}
 
 <form method="POST">
-
+  {% csrf_token %}
 <center><div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">Signup</h5>
@@ -87,7 +87,7 @@
     <br>
     <input type="password" name="password1" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password">
     <br>
-    <input type="password" name="password1" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Confirm Password">
+    <input type="password" name="password2" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Confirm Password">
    <br>
    Already have an account <a href="/login/">login!</a>
    <br>
