@@ -74,7 +74,7 @@
         </a>
       
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Cart</a>
+          <a class="dropdown-item" href="{% url 'order' %}">My Orders</a>
           <a class="dropdown-item" id="Logout" href="{% url 'logout' %}">Logout</a>
         </div>
       </div>
@@ -110,7 +110,7 @@
     <br>
     <form method="POST">
       {% csrf_token %}
-    <center><h3>Isana</h3></center>
+    <center><h3>Ecom</h3></center>
     <br>
     <center><h6>hand crafted and organic products made with love take your time, and choose what you like, we will wait :) .</h6></center>
     <br>

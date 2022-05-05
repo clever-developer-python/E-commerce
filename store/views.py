@@ -265,8 +265,8 @@ def checkout(request):
                 o.item = c.name
                 o.quantity = c.quantity
                 o.city = body['state']
-                o.phone  = body['phonedata']
-                o.email = body['emaildata']
+                for em in email_taken.objects.filter(user = request.user):                   
+                    o.email = em.email_field
                 o.zip = body['zipcode']
                 o.price = total_price
                 o.image = c.image

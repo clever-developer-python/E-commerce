@@ -42,6 +42,7 @@
     </style>
     
   {% if request.user.is_authenticated %}
+  <div id="desktop">
   <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand" href="{% url 'home' %}">
       <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -81,7 +82,7 @@
     <br>
 
 
-    <div class="col d-flex justify-content-center">
+    <div class="col d-flex justify-content-center" id="checkdet">
       <div class="card" style="width: 38rem; margin-left: 100px; margin-right: 35px;">
         <div class="card-body">
           <br>
@@ -112,21 +113,7 @@
       
              
       
-              <div class="mb-3">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                <div class="invalid-feedback">
-                  Please enter a valid email address for shipping updates.
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="email">Phone</label>
-                <input type="phone" class="form-control" id="phone" placeholder="+91 ">
-                <div class="invalid-feedback">
-                  Please enter a valid email address for shipping updates.
-                </div>
-              </div>
+              
       
               <div class="mb-3">
                 <label for="address">Address</label>
@@ -210,10 +197,120 @@
                   
                 <script>
 
+
+
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        document.getElementById('desktop').innerHTML =`
+        <nav class="navbar navbar-light light-blue lighten-4">
+
+<!-- Navbar brand -->
+<a class="navbar-brand" href="#">Isana</a>
+
+<!-- Collapse button -->
+<button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+  aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+      class="fa fa-bars fa-1x"></i></span></button>
+
+<!-- Collapsible content -->
+<div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+  <!-- Links -->
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item active">
+      <a class="nav-link" href="#">Acount: {{ user }} <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'logout' %}" style="color: red;">Logout</a>
+    </li>
+  </ul>
+  <!-- Links -->
+
+</div>
+<!-- Collapsible content -->
+
+</nav>
+
+<br>
+<br>
+<center>Billing Details</center>
+<br>
+
+<input type="text" class="form-control" name="name" id="first" placeholder="First Name" value="" required="">
+<br>
+<input type="text" class="form-control" name="name" id="last" placeholder="Last Name" value="" required="">
+<br>
+<input type="text" class="form-control" name="name" id="address" placeholder="Address" value="" required="">
+<br>
+                  <select class="custom-select d-block w-100" id="country" required="">
+                    <option>India</option>
+                  </select>
+
+
+
+<br>
+
+<select class="custom-select d-block w-100" name="city" id="state" required="">
+                  <option>Andaman and Nicobar (UT)</option>
+                  <option>Arunachal Pradesh</option>
+                  <option>Andhra Pradesh</option>
+                  <option>Assam</option>
+                  <option>Bihar</option>
+                  <option>Chandigarh (UT)</option>
+                  <option>Chhattisgarh</option>
+                  <option>Dadra and Nagar Haveli (UT)</option>
+                  <option>Daman and Diu (UT)</option>
+                  <option>Delhi</option>
+                  <option>Goa</option>
+                  <option>Gujarat</option>
+                  <option>Haryana</option>
+                  <option>Himachal Pradesh</option>
+                  <option>Jammu and Kashmir</option>
+                  <option>Jharkhand</option>
+                  <option>Karnataka</option>
+                  <option>Kerala</option>
+                  <option>Lakshadweep (UT)</option>
+                  <option>Madhya Pradesh</option>
+                  <option>Maharashtra</option>
+                  <option>Manipur</option>
+                  <option>Meghalaya</option>
+                  <option>Mizoram</option>
+                  <option>Nagaland</option>
+                  <option>Orissa</option>
+                  <option>Puducherry (UT)</option>
+                  <option>Punjab</option>
+                  <option>Rajasthan</option>
+                  <option>Sikkim</option>
+                  <option>Tamil Nadu</option>
+                  <option>Telangana</option>
+                  <option>Tripura</option>
+                  <option>Uttar Pradesh</option>
+                  <option>Uttarakhand</option>
+                  <option>West Bengal</option>
+                  </select>
+
+                  <br>
+<input type="text" class="form-control" name="name" id="zip" placeholder="zip" value="" required="">
+<br>
+
+<button type="button" class="btn btn-primary" style="width: 100%;" onclick="clicked()" id="btn">Confirm Purchase</button>
+              <div id="test" style="display: none;">
+              <div id="paypal-button-container">
+              
+              </div>
+        
+        `;
+      
+  }
+
+
+
+
 function clicked(){
                     var uaddress = document.getElementById('address').value;
-                    var uemail  = document.getElementById('email').value;
-                    var uphone = document.getElementById('phone').value;
                     var ufirst = document.getElementById('first').value;
                     var ulast = document.getElementById('last').value;
                     var uzip = document.getElementById('zip').value;
@@ -222,16 +319,6 @@ function clicked(){
 
 
                     if (uaddress.length < 5) {
-                      alert('Please fill out all the fields!')
-                    }
-
-                  else{
-                    if (uemail.length < 1) {
-                      alert('Please fill out all the fields!')
-                    }
-
-                  else{
-                    if (uphone.length < 1) {
                       alert('Please fill out all the fields!')
                     }
 
@@ -263,8 +350,7 @@ function clicked(){
                   }
                   }
                   }
-                  }
-                  }
+                 
                                  
 
 }
@@ -310,8 +396,6 @@ function initPayPalButton() {
     onApprove: function (data) {
 
                   var addressdata = document.getElementById('address').value;
-                  var email  = document.getElementById('email').value;
-                  var phone = document.getElementById('phone').value;
                   var first = document.getElementById('first').value;
                   var last = document.getElementById('last').value;
                   var zip = document.getElementById('zip').value;
@@ -325,7 +409,7 @@ function initPayPalButton() {
             'X-CSRFToken': csrftoken,
           },
           body: JSON.stringify({
-            address: addressdata, firstname: first, emaildata: email, phonedata: phone, state: statedata, zipcode: zip
+            address: addressdata, firstname: first, state: statedata, zipcode: zip
           })
         }).then(function () {
 
