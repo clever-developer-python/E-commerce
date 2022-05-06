@@ -2,7 +2,7 @@
 <html lang="en">
     {% load static%}
   <head>
-    <title>Email</title>
+    <title>Admin page</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,6 +24,40 @@
           body{
       font-family: 'Open Sans', sans-serif;
     }
+
+
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
 
 
         
@@ -65,7 +99,29 @@
       <br>
       <br>
       <br>
-      <center>Your Email Has Been Confirmed You May Use This Email For One Checkout Before Confirming Again</center>
+      <center><table class="styled-table"></center>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Item</th>
+                <th>status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for it in items.all %}
+            <tr>
+                <td>Dom</td>
+                <td>6000</td>
+                <td>6000</td>
+                <td>6000</td>
+            </tr>
+            {% endfor %}
+            
+            
+            <!-- and so on... -->
+        </tbody>
+    </table>
 
     <script>
 
@@ -116,3 +172,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
+      

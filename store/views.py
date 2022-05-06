@@ -307,3 +307,12 @@ def order(request):
     
     else:
         return render(request, 'none2.html')
+
+
+def adminpage(request):
+    if request.user.is_superuser:
+        var = orders.objects
+        return render(request, 'admincustom.html',{'items':var})
+
+    else:
+        raise Http404
