@@ -32,6 +32,7 @@ class orders(models.Model):
 
 class guestuser(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
+    ip = models.CharField(max_length=10000, null=True, blank=True)
 
 
 class OTP(models.Model):
@@ -52,4 +53,13 @@ class email_taken(models.Model):
 class get_email(models.Model):
     e_field = models.CharField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
-    
+
+class premaccount(models.Model):
+    name = models.CharField(max_length=1000)
+    ip = models.CharField(max_length=10000)
+
+
+class prevaccount(models.Model):
+    pre = models.CharField(max_length=10000,null=True,blank=True)
+    new = models.CharField(max_length=10000,null=True,blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 

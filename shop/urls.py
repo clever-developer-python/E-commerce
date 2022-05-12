@@ -41,7 +41,8 @@ urlpatterns = [
     path('wrong_ip/', store.views.ip_wrong, name='wi'),
     path('wrong_otp/', store.views.email_wrong, name='wo'),
     path('Email_confirmed/', store.views.correct_otp, name='d'),
-    path('adminpage/',store.views.adminpage, name='adminpage')
+    path('adminpage/',store.views.adminpage, name='adminpage'),
+    path('slogin/', store.views.shiftlogin, name='shiftlogin'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

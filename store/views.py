@@ -14,7 +14,7 @@ import json
 import random
 import string
 import uuid
-from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email
+from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount
 from django.core.mail import send_mail
 
 #main backed of website project started on 31 jan 2022
@@ -47,13 +47,20 @@ def detail(request, product_id):
     product = get_object_or_404(Items, pk=product_id)
     if request.method == "POST":
 
-            c = ca()
-            c.name = product.name
-            c.image = product.image
-            c.user = request.user
-            c.quantity = request.POST.get('quantity')
-            c.price = product.price
-            c.save()
+            print(product.name)
+
+            if ca.objects.filter(name = product.name, user=request.user).exists():
+                return redirect('cart')
+
+            else:
+
+                c = ca()
+                c.name = product.name
+                c.image = product.image
+                c.user = request.user
+                c.quantity = request.POST.get('quantity')
+                c.price = product.price
+                c.save()
             
             return redirect('cart')
     return render(request, 'detail.html',{'product':product})
@@ -61,6 +68,7 @@ def detail(request, product_id):
 
 #signup
 def signup(request):
+
     if request.method == 'POST':
         # User has info and wants an account now!
         if request.POST.get('password1') == request.POST.get('password2'):
@@ -69,6 +77,7 @@ def signup(request):
                 return render(request, 'signup.html', {'error':'Username has already been taken'})
             except User.DoesNotExist:
                 user = User.objects.create_user(request.POST.get('username'), password=request.POST.get('password1'))
+
                 auth.login(request,user)
                 return redirect('home')
         else:
@@ -82,7 +91,9 @@ def login(request):
     if request.method == 'POST':
         user = auth.authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
         if user is not None:
+            print(request.user)
             auth.login(request, user)
+            print(request.user)
             return redirect('home')
         else:
             return render(request, 'login.html',{'error':'username or password is incorrect.'})
@@ -316,3 +327,41 @@ def adminpage(request):
 
     else:
         raise Http404
+
+
+
+def shiftlogin(request):
+    if request.method == 'POST':
+        user = auth.authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
+        if user is not None:
+            c = prevaccount()
+            c.pre = request.user
+            c.new = request.POST.get('username')
+            c.user = request.user
+            c.save()
+            p = prevaccount()
+            old = prevaccount.objects.filter(pre = request.user)
+
+            print(request.POST.get('username'))
+            print(request.user)
+            auth.login(request, user)
+            for cartitem in ca.objects.filter(user = c.pre):
+                    add = ca()
+                    add.name = cartitem.name
+                    add.price = cartitem.price
+                    add.quantity = cartitem.quantity
+                    add.image = cartitem.image
+                    add.user = request.user
+                    add.save()
+
+            print(request.user)
+
+
+
+            return redirect('home')
+        else:
+            return render(request, 'login.html',{'error':'username or password is incorrect.'})
+    else:
+        return render(request, 'login.html')
+
+
