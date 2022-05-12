@@ -1,19 +1,14 @@
 from __future__ import unicode_literals
-from pkgutil import get_data
-from xml.parsers.expat import model
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum,F
 from django.contrib.auth import authenticate, login as loginuser,logout
-from django.template.context_processors import csrf
-from uuid import getnode as get_mac
 from django.http import Http404
 import json
 import random
 import string
-import uuid
 from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount
 from django.core.mail import send_mail
 
@@ -363,5 +358,3 @@ def shiftlogin(request):
             return render(request, 'login.html',{'error':'username or password is incorrect.'})
     else:
         return render(request, 'login.html')
-
-
