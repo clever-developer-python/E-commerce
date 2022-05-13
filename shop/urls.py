@@ -43,6 +43,7 @@ urlpatterns = [
     path('Email_confirmed/', store.views.correct_otp, name='d'),
     path('adminpage/',store.views.adminpage, name='adminpage'),
     path('slogin/', store.views.shiftlogin, name='shiftlogin'),
+    path('ssignup/', store.views.shiftsignup, name='shiftsign'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

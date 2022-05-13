@@ -358,3 +358,42 @@ def shiftlogin(request):
             return render(request, 'login.html',{'error':'username or password is incorrect.'})
     else:
         return render(request, 'login.html')
+
+
+
+def shiftsignup(request):
+    
+    if request.method == 'POST':
+        # User has info and wants an account now!
+        if request.POST.get('password1') == request.POST.get('password2'):
+            try:
+                user = User.objects.get(username=request.POST.get('username'))
+                return render(request, 'signup.html', {'error':'Username has already been taken'})
+            except User.DoesNotExist:
+                user = User.objects.create_user(request.POST.get('username'), password=request.POST.get('password1'))
+                if user is not None:
+                    c = prevaccount()
+                    c.pre = request.user
+                    c.new = request.POST.get('username')
+                    c.user = request.user
+                    c.save()
+                    p = prevaccount()
+                    old = prevaccount.objects.filter(pre = request.user)
+
+                    print(request.POST.get('username'))
+                    print(request.user)
+                    auth.login(request, user)
+                    for cartitem in ca.objects.filter(user = c.pre):
+                            add = ca()
+                            add.name = cartitem.name
+                            add.price = cartitem.price
+                            add.quantity = cartitem.quantity
+                            add.image = cartitem.image
+                            add.user = request.user
+                            add.save()
+                            return redirect('home')
+        else:
+            return render(request, 'signup.html', {'error':'Passwords must match'})
+    else:
+        # User wants to enter info
+        return render(request, 'signup.html')
