@@ -9,7 +9,7 @@ from django.http import Http404
 import json
 import random
 import string
-from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount
+from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP
 from django.core.mail import send_mail
 
 #main backed of website project started on 31 jan 2022
@@ -397,3 +397,91 @@ def shiftsignup(request):
     else:
         # User wants to enter info
         return render(request, 'signup.html')
+
+
+def defaultemail(request):
+    if request.method == "POST":
+         code1 = random.randint(1,9)
+         code2 = random.randint(1,9)
+         code4 = random.randint(1,9)
+         code3 = random.randint(1,9)
+         code5 = random.randint(1,9)
+         code = f"{code1}{code2}{code3}{code4}{code5}"
+         print(code)
+         get_data_email = request.POST.get('email-field')
+         o = eOTP()
+         o.key = code
+         o.ip = request.META.get('REMOTE_ADDR')
+         o.user = request.user
+         o.save()
+         send_mail(
+         'OTP code',
+         f'{code}',
+         'isanamessenger@gmail.com',
+         [get_data_email],
+         fail_silently=False,
+         )
+
+         g = eget_email()
+         g.e_field = 'ninaadr26@gmail.com'
+         g.user = request.user
+         g.save()
+         return redirect('conf')
+    return render(request, 'defemail.html')
+
+def defemail_sent(request):
+    print(request.META['REMOTE_ADDR'])
+    if request.method == 'POST':
+        get_key = request.POST.get('key')
+        if eOTP.objects.filter(key = get_key).exists():
+            print('okay')
+
+        else:
+            print('security warning')
+            return redirect('wo')
+        if OTP.objects.filter(ip = request.META['REMOTE_ADDR']).exists():
+            print('okay')
+            c = econfirmed()
+            c.confirmation = 'yes'
+            c.user = request.user
+            c.save()
+
+            e = eemail_taken()
+            for gu in eget_email.objects.filter(user = request.user):
+                e.email_field = gu.e_field
+                e.user = request.user
+                e.save()
+
+            
+
+
+            return redirect('d')
+
+        else:
+            print('security warning')
+            return redirect('wi')
+    return render(request, 'conf.html')
+
+def defemail_wrong(request):
+    if request.method == 'POST':
+        get_key = request.POST.get('key')
+        if eOTP.objects.filter(key = get_key).exists():
+            print('okay')
+
+        else:
+            print('security warning')
+            return redirect('wo')
+        if eOTP.objects.filter(ip = request.META['REMOTE_ADDR']).exists():
+            print('okay')
+            c = confirmed()
+            c.confirmation = 'yes'
+            c.user = request.user
+            c.save()
+
+            e = eemail_taken()
+            for gu in eget_email.objects.filter(user = request.user):
+                e.email_field = gu.e_field
+                e.user = request.user
+                e.save()
+
+            

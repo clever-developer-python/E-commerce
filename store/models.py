@@ -63,3 +63,24 @@ class prevaccount(models.Model):
     pre = models.CharField(max_length=10000,null=True,blank=True)
     new = models.CharField(max_length=10000,null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
+
+
+
+class eOTP(models.Model):
+    key = models.CharField(max_length=6)
+    ip = models.CharField(max_length=1000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
+
+
+class econfirmed(models.Model):
+    confirmation = models.CharField(max_length=4)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)      
+
+class eemail_taken(models.Model):
+    email_field = models.CharField(max_length=1000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
+
+
+class eget_email(models.Model):
+    e_field = models.CharField(max_length=1000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 

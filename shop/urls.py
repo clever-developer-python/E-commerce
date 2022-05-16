@@ -44,6 +44,8 @@ urlpatterns = [
     path('adminpage/',store.views.adminpage, name='adminpage'),
     path('slogin/', store.views.shiftlogin, name='shiftlogin'),
     path('ssignup/', store.views.shiftsignup, name='shiftsign'),
+    path('demail/', store.views.defaultemail, name='de'),
+    path('sentemail/',store.views.defemail_sent, name='se')
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

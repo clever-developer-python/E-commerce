@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+    {% load static%}
+  <head>
+    <title>Email</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+  
+  </head>
+  <body>
+      <style>
+
+          #drop{color
+              : black;
+          }
+
+          body{
+      font-family: 'Open Sans', sans-serif;
+    }
+
+
+        
+      </style>
+<header>
+{% if request.user.is_authenticated %}
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      Bootstrap
+    </a>
+    <form class="form-inline" action="{% url 'cart' %}">
+      <div class="dropdown show">
+        <a class="dropdown-toggle" href="#" id="drop"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ user }}
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Cart</a>
+          <a class="dropdown-item" id="Logout" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+      <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
+    </form>
+  </nav>
+  {% else %}
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      Bootstrap
+    </a>
+    <form class="form-inline" action="{% url 'cart' %}">
+    <a href="{% url 'login' %}"> Login</a>
+      <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
+    </form>
+  </nav>
+  {% endif %}
+</header>
+      <br>
+      <br>
+      <br>
+      <br>
+      <form method="POST">
+          {% csrf_token %}
+      <center>Email Confirmation</center>
+      <br>
+      <center><input type="text" class="form-control" name="email-field" style="width: 50%;" placeholder="Email"></center>
+      <br>
+      <center><button type="submit" class="btn btn-primary">Confirm Email</button></center>
+
+    </form>
+
+
+    <script>
+
+      var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+          if (isMobile) {
+              document.getElementById('desktop').innerHTML =`
+              <nav class="navbar navbar-light light-blue lighten-4">
+      
+      <!-- Navbar brand -->
+      <a class="navbar-brand" href="#">Isana</a>
+      
+      <!-- Collapse button -->
+      <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+        aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+            class="fa fa-bars fa-1x"></i></span></button>
+      
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+      
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Acount: {{ user }} <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}" style="color: red;">Logout</a>
+          </li>
+        </ul>
+        <!-- Links -->
+      
+      </div>
+      <!-- Collapsible content -->
+      
+      </nav>
+              
+              `;}
+      
+      
+      
+      </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
