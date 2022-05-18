@@ -435,12 +435,6 @@ def defemail_sent(request):
         get_key = request.POST.get('key')
         if eOTP.objects.filter(key = get_key).exists():
             print('okay')
-
-        else:
-            print('security warning')
-            return redirect('wo')
-        if OTP.objects.filter(ip = request.META['REMOTE_ADDR']).exists():
-            print('okay')
             c = econfirmed()
             c.confirmation = 'yes'
             c.user = request.user
@@ -452,15 +446,14 @@ def defemail_sent(request):
                 e.user = request.user
                 e.save()
 
-            
-
-
-            return redirect('d')
-
         else:
             print('security warning')
-            return redirect('wi')
+            return redirect('wo')
+
     return render(request, 'conf.html')
+        
+
+
 
 def defemail_wrong(request):
     if request.method == 'POST':
@@ -485,3 +478,14 @@ def defemail_wrong(request):
                 e.save()
 
             
+
+def myemails(request):
+    if econfirmed.objects.filter(user = request.user).count() > 0:
+        print('yes')
+        for c in econfirmed.objects.filter(user = request.user):
+            print(c.user)
+        print()
+
+    else:
+        print('no')
+    return render(request, 'deflist.html')
