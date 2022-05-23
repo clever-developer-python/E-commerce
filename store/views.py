@@ -482,10 +482,12 @@ def defemail_wrong(request):
 def myemails(request):
     if econfirmed.objects.filter(user = request.user).count() > 0:
         print('yes')
-        for c in econfirmed.objects.filter(user = request.user):
-            print(c.user)
-        print()
+        for c in eget_email.objects.filter(user = request.user):
+            print(c.e_field)
+            myemaildata = c.e_field
+            return render(request, 'deflist2.html',{'e':myemaildata})
 
     else:
-        print('no')
-    return render(request, 'deflist.html')
+            g = eget_email.objects.filter(user = request.user)
+            print('yes')
+            return render(request, 'deflist.html', {'g':g})

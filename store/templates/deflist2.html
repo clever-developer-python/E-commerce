@@ -52,25 +52,16 @@
       <br>
       <br>
       <br>
-
-      {% for ge in g.all %}
-
-      <h1>ge.e_field</h1>
-
-      {% empty %}
-      <h1>sorry</h1>
-
-      {% endfor %}
    
     <center><div class="list-group" style="width: 30%;">
         <center><h6>Current Email For Checkout:</h6></center>
         <br>
         <br>
-        <button type="button" class="list-group-item list-group-item-action" disabled>None</button>
+        <button type="button" class="list-group-item list-group-item-action" disabled>{{ e }}</button>
       </div></center>
     
     <br>
-    <center><a href="{% url 'de' %}">Set Email</a></center>
+    <center><a href="{% url 'de' %}">Change</a></center>
 
 
     <!-- Optional JavaScript -->
