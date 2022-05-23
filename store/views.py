@@ -485,9 +485,11 @@ def myemails(request):
         for c in eget_email.objects.filter(user = request.user):
             print(c.e_field)
             myemaildata = c.e_field
-            return render(request, 'deflist2.html',{'e':myemaildata})
+            g = eget_email.objects.filter(user = request.user)
+            print('yes')
+            return render(request, 'deflist2.html',{'e':myemaildata,'g':g})
 
     else:
             g = eget_email.objects.filter(user = request.user)
             print('yes')
-            return render(request, 'deflist.html', {'g':g})
+            return render(request, 'deflist2.html',{'g':g})
