@@ -84,3 +84,8 @@ class eemail_taken(models.Model):
 class eget_email(models.Model):
     e_field = models.CharField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
+
+
+class myaddres(models.Model):
+    address = models.CharField(max_length=100000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 

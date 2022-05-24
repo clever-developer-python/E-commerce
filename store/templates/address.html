@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
-    {% load static %}
   <head>
-    <title>Title</title>
+      {% load static  %}
+    <title>Address </title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +10,25 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
-  <body><header>
+  <body>
+
+
+<style>
+
+    body {
+
+        background-color: white;
+        
+    }
+
+    a{
+      color: black;
+    }
+
+
+</style>
+
+<header>
     {% if request.user.is_authenticated %}
       <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="{% url 'home' %}">
@@ -44,35 +62,42 @@
       </nav>
       {% endif %}
     </header>
-          
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
+<br>
+<br>
+<br>
+<center><h3>My Addresses</h3></center>
+<br>
+<br>
+        <br>
 
-      {% for ge in g.all %}
-
-      <h1>{{ ge.e_field }}</h1>
-
-      {% empty %}
+  
       
-      <h1>sorry</h1>
+     <div class="col">
+    <div class="row">
 
-      {% endfor %}
-   
-    <center><div class="list-group" style="width: 30%;">
-        <center><h6>Current Email For Checkout:</h6></center>
-        <br>
-        <br>
-        <button type="button" class="list-group-item list-group-item-action" disabled>{{ e }}</button>
-      </div></center>
-    
-    <br>
-    <center><a href="{% url 'de' %}">Change</a></center>
+      <div class="card text-dark bg-white mb-3" style="width: 18rem; height: 200px; margin-left: 120px; border-color: #eee;">
+      
+        <div class="card-body">
+          <br>
+          
+          <center><a href="{% url 'add' %}" style="color: gray; text-decoration: none;"><p class="card-text" style="font-size: 50px; color: gray;">+</p></a></center>
+        </div>
+</div>
+        {% for a in g %}
+        <div class="card text-dark bg-white mb-3" style="max-width: 18rem; height: 200px; margin-left: 120px; border-color: #eee;">
+      
+            <div class="card-body">
+              <p class="card-text">{{ a.address }}</p>
+            </div>
+</div>
 
+{% endfor %}
+
+
+
+</div>
+
+</div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

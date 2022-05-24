@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      {% load static %}
+    <title>address</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+  <body>
+
+    <style>
+
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+body{
+  font-family: 'Open Sans', sans-serif;
+}
+
+
+    </style>
+    {% if request.user.is_authenticated %}
+    <div id="desktop">
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        Bootstrap
+      </a>
+      <form class="form-inline" action="{% url 'cart' %}">
+        <div class="dropdown show">
+          <a class="dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ user }}
+          </a>
+        
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Cart</a>
+            <a class="dropdown-item" id="Logout" href="{% url 'logout' %}">Logout</a>
+          </div>
+        </div>
+        <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
+      </form>
+    </nav>
+    {% else %}
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+        Bootstrap
+      </a>
+      <form class="form-inline" action="{% url 'cart' %}">
+      <a href="{% url 'login' %}"> Login</a>
+        <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
+      </form>
+    </nav>
+    {% endif %}
+  
+  
+  </header>
+    
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<center><div class="card" style="width: 800px; border: 10px; height: 500px;">
+    <h3>Address details</h3>
+    <br>
+    <br>
+<center><div class="col-md-8 ">
+       
+          <div class="card-body">
+            <form>
+
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="text" id="form11Example1" class="form-control" placeholder="First Name"/>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <input type="text" id="form11Example2" class="form-control" placeholder="Last Name" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Text input -->
+              <div class="form-outline mb-4">
+                <input type="text" id="form11Example4" class="form-control" placeholder="Address"/>
+              </div>
+
+              <div class="form-outline mb-4">
+                <input type="text" id="form11Example4" class="form-control" placeholder="Zip"/>
+              
+            </div>
+
+                <select class="custom-select d-block w-100" name="city" id="state" required="">
+                <option>Andaman and Nicobar (UT)</option>
+                <option>Arunachal Pradesh</option>
+                <option>Andhra Pradesh</option>
+                <option>Assam</option>
+                <option>Bihar</option>
+                <option>Chandigarh (UT)</option>
+                <option>Chhattisgarh</option>
+                <option>Dadra and Nagar Haveli (UT)</option>
+                <option>Daman and Diu (UT)</option>
+                <option>Delhi</option>
+                <option>Goa</option>
+                <option>Gujarat</option>
+                <option>Haryana</option>
+                <option>Himachal Pradesh</option>
+                <option>Jammu and Kashmir</option>
+                <option>Jharkhand</option>
+                <option>Karnataka</option>
+                <option>Kerala</option>
+                <option>Lakshadweep (UT)</option>
+                <option>Madhya Pradesh</option>
+                <option>Maharashtra</option>
+                <option>Manipur</option>
+                <option>Meghalaya</option>
+                <option>Mizoram</option>
+                <option>Nagaland</option>
+                <option>Orissa</option>
+                <option>Puducherry (UT)</option>
+                <option>Punjab</option>
+                <option>Rajasthan</option>
+                <option>Sikkim</option>
+                <option>Tamil Nadu</option>
+                <option>Telangana</option>
+                <option>Tripura</option>
+                <option>Uttar Pradesh</option>
+                <option>Uttarakhand</option>
+                <option>West Bengal</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please provide a valid state.
+                </div>
+              </div>
+
+              <input type="submit" class="btn btn-primary" style="width: 90%;">
+
+
+
+           
+              <!-- Checkbox -->
+
+              
+
+              
+              </div>
+
+              
+            </form>
+          </div>
+       
+          
+
+        </div></center>
+    </div></center>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

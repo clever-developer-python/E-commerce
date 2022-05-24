@@ -2,14 +2,13 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 from django.db.models import Sum,F
 from django.contrib.auth import authenticate, login as loginuser,logout
 from django.http import Http404
 import json
 import random
 import string
-from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP
+from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address
 from django.core.mail import send_mail
 
 #main backed of website project started on 31 jan 2022
@@ -493,3 +492,12 @@ def myemails(request):
             g = eget_email.objects.filter(user = request.user)
             print('yes')
             return render(request, 'deflist2.html',{'g':g})
+
+
+def myaddress(request):
+    get_address = address.objects.filter(user = request.user)
+    return render(request, 'address.html', {'g':get_address})
+
+
+def myaddressform(request):
+    return render(request, 'addad.html')
