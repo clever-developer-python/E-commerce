@@ -287,6 +287,12 @@ def checkout(request):
                     ge.delete()
                 for con in confirmed.objects.filter(user = request.user):
                     con.delete()
+
+        if econfirmed.objects.filter(user = request.user).exists():
+                for e in econfirmed.objects.filter(user = request.user):
+                    print(e.name)
+                return render(request, 'checkout.html')
+                
         return render(request, 'checkout.html', {'total_price':total_price})
 
     else:
@@ -399,6 +405,8 @@ def shiftsignup(request):
 
 
 def defaultemail(request):
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
     if request.method == "POST":
          code1 = random.randint(1,9)
          code2 = random.randint(1,9)
@@ -429,6 +437,8 @@ def defaultemail(request):
     return render(request, 'defemail.html')
 
 def defemail_sent(request):
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
     print(request.META['REMOTE_ADDR'])
     if request.method == 'POST':
         get_key = request.POST.get('key')
@@ -455,6 +465,8 @@ def defemail_sent(request):
 
 
 def defemail_wrong(request):
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
     if request.method == 'POST':
         get_key = request.POST.get('key')
         if eOTP.objects.filter(key = get_key).exists():
@@ -479,6 +491,8 @@ def defemail_wrong(request):
             
 
 def myemails(request):
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
     if econfirmed.objects.filter(user = request.user).count() > 0:
         print('yes')
         for c in eget_email.objects.filter(user = request.user):
@@ -495,11 +509,15 @@ def myemails(request):
 
 
 def myaddress(request):
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
     get_address = address.objects.filter(user = request.user)
     return render(request, 'address.html', {'g':get_address})
 
 
 def myaddressform(request):
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
     if request.method == 'POST':
         a = address()
         a.address = request.POST.get('address')
