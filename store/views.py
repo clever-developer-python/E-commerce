@@ -500,4 +500,13 @@ def myaddress(request):
 
 
 def myaddressform(request):
+    if request.method == 'POST':
+        a = address()
+        a.address = request.POST.get('address')
+        a.city = request.POST.get('city')
+        a.last = request.POST.get('last')
+        a.name = request.POST.get('first')
+        a.user = request.user
+        a.zip = request.POST.get('zip')
+        a.save()
     return render(request, 'addad.html')

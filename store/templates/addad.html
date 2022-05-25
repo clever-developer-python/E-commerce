@@ -68,6 +68,8 @@ body{
 <br>
 <br>
 
+
+
 <center><div class="card" style="width: 800px; border: 10px; height: 500px;">
     <h3>Address details</h3>
     <br>
@@ -75,28 +77,29 @@ body{
 <center><div class="col-md-8 ">
        
           <div class="card-body">
-            <form>
+            <form method="POST">
+              {% csrf_token %}
 
               <div class="row mb-4">
                 <div class="col">
                   <div class="form-outline">
-                    <input type="text" id="form11Example1" class="form-control" placeholder="First Name"/>
+                    <input type="text" id="form11Example1" class="form-control" name="first" placeholder="First Name"/>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-outline">
-                    <input type="text" id="form11Example2" class="form-control" placeholder="Last Name" />
+                    <input type="text" id="form11Example2" class="form-control" name="last" placeholder="Last Name" />
                   </div>
                 </div>
               </div>
 
               <!-- Text input -->
               <div class="form-outline mb-4">
-                <input type="text" id="form11Example4" class="form-control" placeholder="Address"/>
+                <input type="text" id="form11Example4" class="form-control" name="address" placeholder="Address"/>
               </div>
 
               <div class="form-outline mb-4">
-                <input type="text" id="form11Example4" class="form-control" placeholder="Zip"/>
+                <input type="text" id="form11Example4" class="form-control" name="zip" placeholder="Zip"/>
               
             </div>
 
