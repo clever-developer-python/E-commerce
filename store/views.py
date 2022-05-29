@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from audioop import add
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -258,45 +259,44 @@ def ip_wrong(request):
 
 
 def checkout(request):
-    if confirmed.objects.filter(user = request.user).exists():
-        total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
-        if request.method == 'POST':
-            for c in ca.objects.filter(user = request.user):
-                body = json.loads(request.body)
-                data = body['address']
-                o = orders()
-                o.address = data
-                o.name = body['firstname']
-                o.item = c.name
-                o.quantity = c.quantity
-                o.city = body['state']
-                for em in email_taken.objects.filter(user = request.user):                   
-                    o.email = em.email_field
-                o.zip = body['zipcode']
-                o.price = total_price
-                o.image = c.image
-                o.user = request.user
-                o.save()
-          
-                c.delete()
-                for em in email_taken.objects.filter(user = request.user):
-                    em.delete()
-                for ot in OTP.objects.filter(user = request.user):
-                    ot.delete()
-                for ge in get_email.objects.filter(user = request.user):
-                    ge.delete()
-                for con in confirmed.objects.filter(user = request.user):
-                    con.delete()
+        if confirmed.objects.filter(user = request.user).exists() or econfirmed.objects.filter(user = request.user).exists():
+            total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
+            if request.method == 'POST':
+                for c in ca.objects.filter(user = request.user):
+                    body = json.loads(request.body)
+                    data = body['address']
+                    o = orders()
+                    o.address = data
+                    o.name = body['firstname']
+                    o.item = c.name
+                    o.quantity = c.quantity
+                    o.city = body['state']
+                    for em in email_taken.objects.filter(user = request.user):                   
+                        o.email = em.email_field
+                    o.zip = body['zipcode']
+                    o.price = total_price
+                    o.image = c.image
+                    o.user = request.user
+                    o.save()
 
-        if econfirmed.objects.filter(user = request.user).exists():
-                for e in econfirmed.objects.filter(user = request.user):
-                    print(e.name)
-                return render(request, 'checkout.html')
-                
-        return render(request, 'checkout.html', {'total_price':total_price})
+                    c.delete()
+                    for em in email_taken.objects.filter(user = request.user):
+                        em.delete()
+                    for ot in OTP.objects.filter(user = request.user):
+                        ot.delete()
+                    for ge in get_email.objects.filter(user = request.user):
+                        ge.delete()
+                    for con in confirmed.objects.filter(user = request.user):
+                        con.delete()
 
-    else:
-        return redirect('email')
+
+
+            
+            return render(request, 'checkout.html', {'total_price':total_price})
+            
+
+        else:
+            return redirect('email')
 
 
 def done(request):
@@ -447,6 +447,8 @@ def defemail_sent(request):
             c = econfirmed()
             c.confirmation = 'yes'
             c.user = request.user
+            for g in eget_email.objects.filter(user = request.user):
+                c.email = g.e_field
             c.save()
 
             e = eemail_taken()
@@ -495,12 +497,16 @@ def myemails(request):
         return redirect('home')
     if econfirmed.objects.filter(user = request.user).count() > 0:
         print('yes')
+    try:
         for c in eget_email.objects.filter(user = request.user):
             print(c.e_field)
             myemaildata = c.e_field
             g = eget_email.objects.filter(user = request.user)
             print('yes')
             return render(request, 'deflist2.html',{'e':myemaildata,'g':g})
+
+    except:
+        return redirect('home')
 
     else:
             g = eget_email.objects.filter(user = request.user)

@@ -74,7 +74,8 @@ class eOTP(models.Model):
 
 class econfirmed(models.Model):
     confirmation = models.CharField(max_length=4)
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)      
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    email = models.CharField(max_length=10000, null=True)      
 
 class eemail_taken(models.Model):
     email_field = models.CharField(max_length=1000)
