@@ -261,6 +261,8 @@ def ip_wrong(request):
 def checkout(request):
         if confirmed.objects.filter(user = request.user).exists() or econfirmed.objects.filter(user = request.user).exists():
             total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
+            dataemail = eget_email.objects.filter(user = request.user)
+            datadd = address.objects.filter(user = request.user)
             if request.method == 'POST':
                 for c in ca.objects.filter(user = request.user):
                     body = json.loads(request.body)
@@ -271,8 +273,13 @@ def checkout(request):
                     o.item = c.name
                     o.quantity = c.quantity
                     o.city = body['state']
-                    for em in email_taken.objects.filter(user = request.user):                   
-                        o.email = em.email_field
+                    if email_taken.objects.filter(user = request.user).exists():
+                        for em in email_taken.objects.filter(user = request.user):                 
+                            o.email = em.email_field
+
+                    else:
+                            for eg in eget_email.objects.filter(user = request.user):
+                                o.email = eg.e_field
                     o.zip = body['zipcode']
                     o.price = total_price
                     o.image = c.image
@@ -292,7 +299,7 @@ def checkout(request):
 
 
             
-            return render(request, 'checkout.html', {'total_price':total_price})
+            return render(request, 'checkout.html', {'total_price':total_price,'dataemail':dataemail,'datadd':datadd})
             
 
         else:
