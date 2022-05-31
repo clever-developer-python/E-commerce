@@ -245,10 +245,6 @@ def ip_wrong(request):
                 e.email_field = gu.e_field
                 e.user = request.user
                 e.save()
-
-            
-
-
             return redirect('d')
 
         else:
