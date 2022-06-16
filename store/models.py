@@ -97,4 +97,7 @@ class myaddres(models.Model):
 
 class selected(models.Model):
     address = models.CharField(max_length=1000)
+    name  = models.CharField(max_length=1000)
+    state = models.CharField(max_length=100)
+    zip = models.CharField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 

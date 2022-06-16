@@ -48,7 +48,8 @@ urlpatterns = [
     path('sentemail/',store.views.defemail_sent, name='se'),
     path('myemails/', store.views.myemails, name='dee'),
     path('myadd/', store.views.myaddress, name='aee'),
-    path('aa/',store.views.myaddressform, name='add')
+    path('aa/',store.views.myaddressform, name='add'),
+    path('sa/',store.views.selectadd, name='selected')
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

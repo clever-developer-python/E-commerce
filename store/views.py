@@ -9,7 +9,7 @@ from django.http import Http404
 import json
 import random
 import string
-from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address
+from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address,selected
 from django.core.mail import send_mail
 
 #main backed of website project started on 31 jan 2022
@@ -537,3 +537,16 @@ def myaddressform(request):
         a.zip = request.POST.get('zip')
         a.save()
     return render(request, 'addad.html')
+
+
+
+def selectadd(request):
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
+    get_address = address.objects.filter(user = request.user)
+
+    if request.method == 'POST':
+        s = selected()
+        s.address = 
+
+    return render(request, 'select.html', {'g':get_address})
