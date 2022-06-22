@@ -546,7 +546,13 @@ def selectadd(request):
     get_address = address.objects.filter(user = request.user)
 
     if request.method == 'POST':
-        s = selected()
-        s.address = 
+        for c in selected.objects.filter(user = request.user):
+            c.delete()
 
+        s = selected()
+        s.address = request.POST.get('data')
+        for a in address.objects.filter(user = request.user):
+            s.user = request.user
+            s.address = a.address
+        s.save()
     return render(request, 'select.html', {'g':get_address})

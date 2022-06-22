@@ -75,18 +75,17 @@
      <div class="col">
     <div class="row">
 
-      
+      <form method="POST">
+        {% csrf_token %}
         {% for a in g %}
         <div class="card text-dark bg-white mb-3" style="max-width: 18rem; height: 200px; margin-left: 170px; border-color: #eee;">
       
             <div class="card-body">
-              <p class="card-text">{{ a.address }}</p>
+              <p class="card-text" name="data">{{ a.address }}</p>
               <br>
               <br>
               <br>
-              <br>
-              <form method="POST">
-                {% csrf_token %}
+              <br>   
               <center><button type="submit" name="" id="" class="btn btn-primary" btn-lg btn-block>select</button></center>
             </form>
             </div>

@@ -96,8 +96,9 @@ class myaddres(models.Model):
     last = models.CharField(max_length=10000, null=True)
 
 class selected(models.Model):
-    address = models.CharField(max_length=1000)
-    name  = models.CharField(max_length=1000)
-    state = models.CharField(max_length=100)
-    zip = models.CharField(max_length=1000)
+    address = models.CharField(max_length=100000, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
+    city = models.CharField(max_length=250, null=True)
+    zip = models.CharField(max_length=1000, null=True)
+    name = models.CharField(max_length=10000, null=True)
+    last = models.CharField(max_length=10000, null=True)
