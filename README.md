@@ -1,5 +1,7 @@
 # E-commerce
 
+DEVELOPMENT HALTED UNTIL SMTP SERVICE PROVIDER SUITABLE FOR WEBSITE FOUND JUL 2 2022
+
 
 django E-commerce project started on 31 january 2022 will be used for a real company so please be careful if you want to contribute to the code 
 
