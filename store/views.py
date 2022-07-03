@@ -258,7 +258,15 @@ def checkout(request):
         if confirmed.objects.filter(user = request.user).exists() or econfirmed.objects.filter(user = request.user).exists():
             total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
             dataemail = eget_email.objects.filter(user = request.user)
-            datadd = address.objects.filter(user = request.user)
+            datadd = selected.objects.filter(user = request.user)
+            if selected.objects.filter(user = request.user).exists():
+                pass
+
+            elif address.objects.filter(user = request.user).exists():
+                return redirect('selected')
+
+            else:
+                return render(request, 'checkout.html', {'total_price':total_price,'dataemail':dataemail,'datadd':datadd})
             if request.method == 'POST':
                 for c in ca.objects.filter(user = request.user):
                     body = json.loads(request.body)
@@ -291,6 +299,8 @@ def checkout(request):
                         ge.delete()
                     for con in confirmed.objects.filter(user = request.user):
                         con.delete()
+                    for a in selected.objects.filter(user = request.user):
+                        a.delete()
 
 
 
@@ -554,5 +564,10 @@ def selectadd(request):
         for a in address.objects.filter(user = request.user):
             s.user = request.user
             s.address = a.address
+            s.city = a.city
+            s.zip = a.zip
+            s.name = a.name
+            s.last = a.last
+
         s.save()
     return render(request, 'select.html', {'g':get_address})
