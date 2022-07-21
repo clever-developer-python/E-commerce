@@ -62,6 +62,15 @@
       </nav>
       {% endif %}
     </header>
+
+    <br>
+    <br>
+    <center><P style="color: red;">{{ error }}</P></center>
+
+
+  
+<form method="POST">
+  {% csrf_token %}
 <br>
 <br>
 <br>
@@ -71,37 +80,23 @@
         <br>
 
   
-      
-     <div class="col">
-    <div class="row">
-
-      <form method="POST">
-        {% csrf_token %}
-        {% for a in g %}
-        <div class="card text-dark bg-white mb-3" style="max-width: 18rem; height: 200px; margin-left: 170px; border-color: #eee;">
-      
-            <div class="card-body">
-              <p class="card-text" name="data">{{ a.address }}</p>
-              <br>
-              <br>
-              <br>
-              <br>   
-              <center><button type="submit" name="" id="" class="btn btn-primary" btn-lg btn-block>select</button></center>
-            </form>
-            </div>
-
-            
-</div>
+       <center> <select style="width: 60%;" name="data" class="form-select" aria-label="Default select example">
+          <option selected>select an address</option>
+          {% for a in g %}
+          <option value="{{ a.address }}">{{ a.address }}</option>
+          {% endfor %}
+        </select></center>
 
 
 
-{% endfor %}
 
 
+<br>
+<br>
 
-</div>
+<center><button type="submit" style="width: 10%;" class="btn btn-primary">Select</button></center>
 
-</div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

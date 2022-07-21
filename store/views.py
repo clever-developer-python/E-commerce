@@ -1,5 +1,8 @@
 from __future__ import unicode_literals
 from audioop import add
+from pkgutil import get_data
+from select import select
+from unicodedata import name
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -11,6 +14,14 @@ import random
 import string
 from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address,selected
 from django.core.mail import send_mail
+
+#list
+
+# deletable products [CHECK]
+#mobile frontend (checkout)
+#implement address and email data [CHECK]!
+#fix select page
+# today we worked on select page massive bug where the selected address would not work we have implemented a solution to this found in the function in this files around line 581
 
 #main backed of website project started on 31 jan 2022
 #home page backend code!
@@ -253,20 +264,22 @@ def ip_wrong(request):
     return render(request, 'ipwrong.html')
 
 
-
 def checkout(request):
+
+    if selected.objects.filter(user = request.user).count() > 0:
+        pass
+
+    else:
+        if address.objects.filter(user = request.user).count() > 0:
+            return redirect('selected')
+
+    if ca.objects.filter(user = request.user).count() > 0:
         if confirmed.objects.filter(user = request.user).exists() or econfirmed.objects.filter(user = request.user).exists():
             total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
             dataemail = eget_email.objects.filter(user = request.user)
             datadd = selected.objects.filter(user = request.user)
-            if selected.objects.filter(user = request.user).exists():
-                pass
+            cadata = ca.objects.filter(user = request.user)
 
-            elif address.objects.filter(user = request.user).exists():
-                return redirect('selected')
-
-            else:
-                return render(request, 'checkout.html', {'total_price':total_price,'dataemail':dataemail,'datadd':datadd})
             if request.method == 'POST':
                 for c in ca.objects.filter(user = request.user):
                     body = json.loads(request.body)
@@ -300,16 +313,23 @@ def checkout(request):
                     for con in confirmed.objects.filter(user = request.user):
                         con.delete()
                     for a in selected.objects.filter(user = request.user):
-                        a.delete()
+                        a.delete()               
+                    for c in ca.objects.filter(user = request.user):
+                        c.delete()
 
 
 
             
-            return render(request, 'checkout.html', {'total_price':total_price,'dataemail':dataemail,'datadd':datadd})
+            return render(request, 'checkout.html', {'total_price':total_price,'dataemail':dataemail,'datadd':datadd,'cadata':cadata})
             
 
         else:
-            return redirect('email')
+           return redirect('email')
+
+
+    else:
+        return render(request, 'none.html')
+
 
 
 def done(request):
@@ -555,13 +575,18 @@ def selectadd(request):
         return redirect('home')
     get_address = address.objects.filter(user = request.user)
 
+    for s in selected.objects.filter(user = request.user):
+                s.delete()
+
     if request.method == 'POST':
-        for c in selected.objects.filter(user = request.user):
-            c.delete()
+
+        get_item = request.POST.get('data')
+
+        if get_item == 'select an address':
+            return render(request, 'select.html', {'g':get_address,'error':'Please choose a proper address!'})
 
         s = selected()
-        s.address = request.POST.get('data')
-        for a in address.objects.filter(user = request.user):
+        for a in address.objects.filter(user = request.user, address=get_item):
             s.user = request.user
             s.address = a.address
             s.city = a.city
@@ -570,4 +595,6 @@ def selectadd(request):
             s.last = a.last
 
         s.save()
+        return redirect('checkout')
+    
     return render(request, 'select.html', {'g':get_address})

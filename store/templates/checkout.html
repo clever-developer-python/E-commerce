@@ -1,200 +1,579 @@
-<!doctype html>
+<!DOCTYPE html>
+{% load static %}
 <html lang="en">
-  <head>
-    {% load static %}
-    <title>Checkout</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+
+  <!--
+    - custom css link
+  -->
+  <link rel="stylesheet" href="style.css">
+
+  <!--
+    - google font link
+  -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Source+Sans+3:200,300,regular,500,600,700,800,900,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic"
+    rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
   </head>
-  <body>
 
-    <style>
+<body>
 
-      body{
-        font-family: 'Open Sans', sans-serif;
-    }
-
-
-      a{
-        color: black;
-      }
-
-      a:hover{
-        color: black;
-      }
-
-      #Logout{
-        color: red;
-      }
-
-      .paypal-button-label-container{
-        display: none;
-      }
-      
-
-    </style>
-    
-  {% if request.user.is_authenticated %}
-  <div id="desktop">
-  <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'home' %}">
-      <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-      Bootstrap
-    </a>
-    <form class="form-inline" action="{% url 'cart' %}">
-      <div class="dropdown show">
-        <a class="dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ user }}
-        </a>
-      
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Cart</a>
-          <a class="dropdown-item" id="Logout" href="{% url 'logout' %}">Logout</a>
-        </div>
-      </div>
-      <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
-    </form>
-  </nav>
-  {% else %}
-  <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'home' %}">
-      <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-      Bootstrap
-    </a>
-    <form class="form-inline" action="{% url 'cart' %}">
-    <a href="{% url 'login' %}"> Login</a>
-      <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
-    </form>
-  </nav>
-  {% endif %}
-
-
-</header>
-<br>
-    <br>
     <br>
 
-    
+
+  <style>
+    /*-----------------------------------*\
+  #style.css
+\*-----------------------------------*/
+
+/**
+ * copyright 2021 @codewithsadee 
+ */
 
 
-    <div class="col d-flex justify-content-center" id="checkdet">
-      <div class="card" style="width: 38rem; margin-left: 100px; margin-right: 35px;">
-        <div class="card-body">
-          <br>
-          <h5 style="margin-left: 220px;">Billing Details</h5>
-          <br>
-          <center>Paying: {{ total_price }}</center>
-          <br>
-          <br>
 
-          <center><div class="col-md-8 order-md-1"></center>
-            <form class="needs-validation" novalidate="">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="firstName">First name</label>
-                  {% for daa in datadd %}
-                  <input type="text" class="form-control" name="name" id="first" placeholder="" value="{{ daa.name }}" required="">
-                  {% empty %}
-                  <input type="text" class="form-control" name="name" id="first" placeholder=""  required="">
-                  {% endfor %}
-                  <div class="invalid-feedback">
-                    Valid first name is required.
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="lastName">Last name</label>
+
+
+/*-----------------------------------*\
+  #VARIABLE
+\*-----------------------------------*/
+
+:root {
+
+/**
+ * Colors
+ */
+
+--onyx:         hsl(0, 0%, 25%);
+--azure:        hsl(219, 77%, 60%);
+--white:        hsl(0, 0%, 100%);
+--platinum:     hsl(0, 0%, 91%);
+--gainsboro:    hsl(0, 0%, 90%);
+--red-salsa:    hsl(0, 77%, 60%);
+--dim-gray:     hsl(0, 0%, 39%);
+--davys-gray:   hsl(0, 0%, 30%);
+--spanish-gray: hsl(0, 0%, 62%);
+--quick-silver: hsl(0, 0%, 64%);
+
+/**
+ * Typography
+ */
+
+--fs-28: 28px;
+--fs-24: 24px;
+--fs-18: 18px;
+--fs-15: 15px;
+--fs-14: 14px;
+
+--fw-5: 500;
+--fw-6: 600;
+--fw-7: 700;
+
+/**
+ * Others 
+ */
+
+--px: 60px;
+--radius: 5px;
+
+}
+
+
+
+
+
+/*-----------------------------------*\
+#RESET
+\*-----------------------------------*/
+
+*, *::before, *::after {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+html { font-family: 'Source Sans 3', sans-serif; }
+
+a {
+color: inherit;
+text-decoration: none;
+}
+
+button {
+border: none;
+background: none;
+font: inherit;
+cursor: pointer;
+}
+
+ion-icon, span { display: inline-block; }
+
+label, img { display: block; }
+
+input {
+font: inherit;
+width: 100%;
+border: none;
+}
+
+input:focus { outline: 2px solid var(--azure); }
+
+/**
+* Remove number input up & down button
+*/
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+appearance:         none;
+-webkit-appearance: none;
+margin: 0;
+}
+
+/**
+* Custom scrollbar style
+*/
+::-webkit-scrollbar { width: 8px; }
+
+::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-thumb {
+background: hsl(0, 0%, 80%);
+border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 70%); }
+
+
+
+
+
+/*-----------------------------------*\
+#MAIN STYLE
+\*-----------------------------------*/
+
+/**
+* main container 
+*/
+
+.container {
+max-width: 1440px;
+min-height: 100vh;
+margin: auto;
+display: flex;
+flex-direction: column;
+}
+
+
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+body{
+  font-family: 'Open Sans', sans-serif;
+}
+
+.heading {
+font-size: var(--fs-28);
+font-weight: var(--fw-6);
+color: var(--onyx);
+border-bottom: 1px solid var(--gainsboro);
+padding: 20px var(--px);
+display:     flex;
+align-items: center;
+gap: 20px;
+}
+
+.heading ion-icon { font-size: 40px; }
+
+.item-flex {
+display: flex;
+flex-grow: 1;
+}
+
+/**
+* checkout section style 
+*/
+
+.checkout {
+width: 70%;
+padding: 40px var(--px);
+background: var(--white);
+border-right: 1px solid var(--gainsboro);
+}
+
+.section-heading {
+color: var(--onyx);
+margin-bottom: 30px;
+font-size: var(--fs-24);
+font-weight: var(--fw-5);
+}
+
+.payment-form { margin-bottom: 40px; }
+
+.payment-method {
+display:     flex;
+align-items: center;
+gap: 30px;
+margin-bottom: 40px;
+}
+
+.payment-method .method {
+border: 1px solid var(--quick-silver);
+border-radius: var(--radius);
+width: 50%;
+display:     flex;
+align-items: center;
+padding: 15px 30px;
+gap: 20px;
+cursor: pointer;
+}
+
+.payment-method .selected { border-color: var(--azure); }
+
+.payment-method .method ion-icon { font-size: 20px; }
+
+.payment-method .method .checkmark {
+margin-left: auto;
+color: var(--quick-silver);
+}
+
+.payment-method .method .fill { color: var(--azure); }
+
+.label-default {
+padding-left: 10px;
+margin-bottom: 5px;
+font-size: var(--fs-14);
+color: var(--spanish-gray);
+}
+
+.input-default {
+background: var(--platinum);
+border-radius: var(--radius);
+color: var(--davys-gray);
+}
+
+.payment-form input {
+padding: 10px 15px;
+font-size: var(--fs-18);
+font-weight: var(--fw-5);
+}
+
+.cardholder-name,
+.card-number { margin-bottom: 20px; }
+
+.card-number input,
+.cvv input { letter-spacing: 3px; }
+
+.input-flex {
+display:     flex;
+align-items: center;
+gap: 30px;
+}
+
+.input-flex .expire-date,
+.input-flex .cvv { width: 50%; }
+
+.expire-date .input-flex {
+color: var(--spanish-gray);
+gap: 13px;
+}
+
+.expire-date .input-flex input { text-align: center; }
+
+.btn { border-radius: var(--radius); }
+
+.btn:active { transform: scale(0.99); }
+
+.btn:focus {
+color: var(--white);
+background: var(--azure);
+outline: 2px solid var(--azure);
+outline-offset: 2px;
+}
+
+.btn-primary {
+background: var(--azure);
+font-weight: var(--fw-5);
+color: var(--white);
+padding: 13px 45px;
+}
+
+.btn-primary b { margin-right: 10px; }
+
+
+/**
+* cart section style
+*/
+
+.cart {
+width: 40%;
+display:         flex;
+flex-direction:  column;
+justify-content: flex-end;
+}
+
+.cart-item-box {
+padding: 40px var(--px);
+margin-bottom: auto;
+}
+
+.product-card:not(:last-child) { margin-bottom: 20px; }
+
+.product-card .card {
+position: relative;
+display:     flex;
+align-items: flex-start;
+gap: 20px;
+}
+
+.card .product-img { border-radius: var(--radius); }
+
+.card .detail .product-name {
+font-weight: var(--fw-6);
+font-size: var(--fs-15);
+color: var(--dim-gray);
+margin-bottom: 10px;
+}
+
+.card .detail .wrapper {
+display: flex;
+gap: 20px;
+}
+
+.product-qty {
+display:     flex;
+align-items: center;
+gap: 10px;
+}
+
+.product-qty button {
+background: var(--platinum);
+width:  20px;
+height: 20px;
+display:         flex;
+justify-content: center;
+align-items:     center;
+}
+
+.product-qty button:active,
+.product-close-btn:active ion-icon { transform: scale(0.95); }
+
+.product-qty button ion-icon {
+--ionicon-stroke-width: 60px;
+font-size: 10px;
+}
+
+.product-close-btn {
+position: absolute;
+top:   0;
+right: 0;
+}
+
+.product-close-btn ion-icon {
+font-size: 25px;
+color: var(--quick-silver);
+}
+
+.product-close-btn:hover ion-icon { color: var(--red-salsa); }
+
+.discount-token {
+padding: 40px var(--px);
+border-top:    1px solid var(--gainsboro);
+border-bottom: 1px solid var(--gainsboro);
+}
+
+.wrapper-flex {
+display:     flex;
+align-items: center;
+gap: 30px;
+}
+
+.wrapper-flex input {
+padding: 12px 15px;
+font-weight: var(--fw-6);
+letter-spacing: 2px;
+}
+
+.btn-outline {
+padding: 10px 25px;
+border: 1px solid var(--azure);
+color: var(--azure);
+}
+
+.btn-outline:hover {
+background: var(--azure);
+color: var(--white);
+}
+
+.amount { padding: 40px var(--px); }
+
+.amount > div {
+display:         flex;
+justify-content: space-between;
+}
+
+.amount > div:not(:last-child) { margin-bottom: 10px; }
+
+.amount .total {
+font-size: var(--fs-18);
+font-weight: var(--fw-7);
+color: var(--onyx);
+}
+
+
+
+
+
+/*-----------------------------------*\
+#RESPONSIVE
+\*-----------------------------------*/
+
+@media (max-width: 1200px) {
+
+.item-flex { flex-direction: column-reverse; }
+
+/**
+ * checkout section responsive 
+ */
+
+.checkout {
+  width: 100%;
+  border-right: none;
+}
+
+.btn-primary { width: 100%; }
+
+/**
+ * cart section responsive
+ */
+
+.cart {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  border-bottom: 1px solid var(--gainsboro);
+}
+
+.cart .wrapper { margin-top: auto; }
+
+.cart .cart-item-box {
+  border-right: 1px solid var(--gainsboro);
+  margin-bottom: 0;
+}
+
+.discount-token { border-top: none; }
+
+}
+
+
+
+
+
+@media (max-width: 768px) {
+
+:root { --px: 40px; }
+
+.cart { grid-template-columns: 1fr; }
+
+.discount-token { border-top: 1px solid var(--gainsboro); }
+
+.wrapper-flex { gap: 20px; }
+
+}
+
+
+
+
+
+@media (max-width: 567px) {
+
+:root { --px: 20px; }
+
+.payment-method,
+.input-flex {
+  flex-direction: column;
+  gap: 20px;
+}
+
+.payment-method .method { width: 100%; }
+
+.input-flex .expire-date,
+.input-flex .cvv { width: 100%; }
+
+.expire-date .input-flex { flex-direction: row; }
+
+}
+  </style>
+
+  <!--
+    - main container
+  -->
+
+  
+
+  <main class="container">
+
+    <h1 class="heading">
+      <ion-icon name="cart-outline"></ion-icon><a style="color: black;" href="/"> Ecom</a>
+    </h1>
+
+    <div class="item-flex">
+
+      <!--
+       - checkout section
+      -->
+      <section class="checkout">
+
+        <h2 class="section-heading">Payment Details</h2>
+
+        <div class="payment-form">
+
+          <div class="payment-method">
+
+           
+          </div>
+
+            <div class="cardholder-name">
+              <label for="cardholder-name" class="label-default">First Name</label>
+              {% for d in datadd %}
+              <input type="text" name="name" id="first" value="{{ d.name }}" class="input-default">
+              {% empty %}
+              <input type="text" name="name" id="first" class="input-default">
+              {% endfor %}
+            </div>
+
+            <div class="card-number">
+              <label for="card-number" class="label-default">Address</label>
+              {% for d in datadd %}
+              <input type="text" name="address" id="address" value="{{ d.address }}" class="input-default">
+              {% empty %}
+              <input type="text" name="address" id="address" class="input-default">
+              {% endfor %}
+
+            </div>
+
+           
+
+            <div class="input-flex">
+
+              <div class="expire-date">
+                <label for="expire-date" class="label-default">State</label>
+
+                <div class="input-flex">
                   {% for d in datadd %}
-                  <input type="text" class="form-control" id="last" placeholder="" value="{{ d.last }}" required="">
+                  <select class="custom-select d-block w-100" style="width: 100%" name="city" id="state" required="">
+                    <option>{{ d.city }}</option>
+                    
+                    </select>
+                  
                   {% empty %}
-                  <input type="text" class="form-control" id="last" placeholder="" required="">
-                  {% endfor %}
-                  <div class="invalid-feedback">
-                    Valid last name is required.
-                  </div>
-                </div>
-              </div>
-      
-             
-      
-              
-      
-              <div class="mb-3">
-                <label for="address">Address</label>
-                {% for da in datadd %}
-                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" value="{{ da.address }}" required>
-                {% empty %}
-                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
-                {% endfor %}
-                <div class="invalid-feedback">
-                  Please enter your shipping address.
-                </div>
-              </div>
-      
 
-      
-              <div class="row">
-                <div class="col-md-5 mb-3">
-                  <label for="country">Country</label>
-                  <select class="custom-select d-block w-100" id="country" required="">
-                    <option>India</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid country.
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <label for="state">State</label>
-                  {% for ds in datadd %}
-                  <select class="custom-select d-block w-100" name="city" id="state" value="{{ ds.city }}" required="">
-                  <option>Andaman and Nicobar (UT)</option>
-                  <option>Arunachal Pradesh</option>
-                  <option>Andhra Pradesh</option>
-                  <option>Assam</option>
-                  <option>Bihar</option>
-                  <option>Chandigarh (UT)</option>
-                  <option>Chhattisgarh</option>
-                  <option>Dadra and Nagar Haveli (UT)</option>
-                  <option>Daman and Diu (UT)</option>
-                  <option>Delhi</option>
-                  <option>Goa</option>
-                  <option>Gujarat</option>
-                  <option>Haryana</option>
-                  <option>Himachal Pradesh</option>
-                  <option>Jammu and Kashmir</option>
-                  <option>Jharkhand</option>
-                  <option>Karnataka</option>
-                  <option>Kerala</option>
-                  <option>Lakshadweep (UT)</option>
-                  <option>Madhya Pradesh</option>
-                  <option>Maharashtra</option>
-                  <option>Manipur</option>
-                  <option>Meghalaya</option>
-                  <option>Mizoram</option>
-                  <option>Nagaland</option>
-                  <option>Orissa</option>
-                  <option>Puducherry (UT)</option>
-                  <option>Punjab</option>
-                  <option>Rajasthan</option>
-                  <option>Sikkim</option>
-                  <option>Tamil Nadu</option>
-                  <option>Telangana</option>
-                  <option>Tripura</option>
-                  <option>Uttar Pradesh</option>
-                  <option>Uttarakhand</option>
-                  <option>West Bengal</option>
-                  </select>
-
-                  {% empty %}
-                  <div class="col-md-4 mb-3">
-                    <label for="state">State</label>
-                    <select class="custom-select d-block w-100" name="city" id="state"  required="">
+                  <select class="custom-select d-block w-100" name="city" id="state" required="">
                     <option>Andaman and Nicobar (UT)</option>
                     <option>Arunachal Pradesh</option>
                     <option>Andhra Pradesh</option>
@@ -232,149 +611,150 @@
                     <option>Uttarakhand</option>
                     <option>West Bengal</option>
                     </select>
-  
-                  
-  
-                    <div class="invalid-feedback">
-                      Please provide a valid state.
-                    </div>
-                  </div>
+                {% endfor %}
+                    
+                  /
 
-                  {% endfor %}
-                  <div class="invalid-feedback">
-                    Please provide a valid state.
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <label for="zip">Zip</label>
-                  {% for dz in datadd %}
-                  <input type="text" class="form-control" id="zip" placeholder="" value="{{ dz.zip }}" required="">
-                  {% empty %}
-                  <input type="text" class="form-control" id="zip" placeholder="" required="">
-                  {% endfor %}
-                  <div class="invalid-feedback">
-                    Zip code required.
-                  </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary" style="width: 100%;" onclick="clicked()" id="btn">Confirm Purchase</button>
-              <div id="test" style="display: none;">
-              <div id="paypal-button-container">
-              
+
+              <div class="expire-date">
+                <label for="expire-date" class="label-default">Country</label>
+
+                <div class="input-flex">
+
+                  <input type="number"  name="day" id="expire-date" placeholder="India (india only)" value="India" min="1" max="31"
+                    class="input-default" disabled>
+                  /
+
+                </div>
               </div>
-                <!-- Include the PayPal JavaScript SDK -->
-                <script src="https://www.paypal.com/sdk/js?client-id=AWOJXWE0FEern3ixCeeF7tsODtkVeQASnUKaeO145wM9ceJwGbxIRAsqAPGz94x5TyZbcN9Lf0cs_hch&currency=USD"></script>
-                  
-                <script>
 
 
-
-var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-        document.getElementById('desktop').innerHTML =`
-        <nav class="navbar navbar-light light-blue lighten-4">
-
-<!-- Navbar brand -->
-<a class="navbar-brand" href="#">Isana</a>
-
-<!-- Collapse button -->
-<button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-  aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
-      class="fa fa-bars fa-1x"></i></span></button>
-
-<!-- Collapsible content -->
-<div class="collapse navbar-collapse" id="navbarSupportedContent1">
-
-  <!-- Links -->
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
-      <a class="nav-link" href="#">Acount: {{ user }} <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'cart' %}">Cart</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'logout' %}" style="color: red;">Logout</a>
-    </li>
-  </ul>
-  <!-- Links -->
-
-</div>
-<!-- Collapsible content -->
-
-</nav>
-
-<br>
-<br>
-<center>Billing Details</center>
-<br>
-
-<input type="text" class="form-control" name="name" id="first" placeholder="First Name" value="" required="">
-<br>
-<input type="text" class="form-control" name="name" id="last" placeholder="Last Name" value="" required="">
-<br>
-<input type="text" class="form-control" name="name" id="address" placeholder="Address" value="" required="">
-<br>
-                  <select class="custom-select d-block w-100" id="country" required="">
-                    <option>India</option>
-                  </select>
-
-
-
-<br>
-
-<select class="custom-select d-block w-100" name="city" id="state" required="">
-                  <option>Andaman and Nicobar (UT)</option>
-                  <option>Arunachal Pradesh</option>
-                  <option>Andhra Pradesh</option>
-                  <option>Assam</option>
-                  <option>Bihar</option>
-                  <option>Chandigarh (UT)</option>
-                  <option>Chhattisgarh</option>
-                  <option>Dadra and Nagar Haveli (UT)</option>
-                  <option>Daman and Diu (UT)</option>
-                  <option>Delhi</option>
-                  <option>Goa</option>
-                  <option>Gujarat</option>
-                  <option>Haryana</option>
-                  <option>Himachal Pradesh</option>
-                  <option>Jammu and Kashmir</option>
-                  <option>Jharkhand</option>
-                  <option>Karnataka</option>
-                  <option>Kerala</option>
-                  <option>Lakshadweep (UT)</option>
-                  <option>Madhya Pradesh</option>
-                  <option>Maharashtra</option>
-                  <option>Manipur</option>
-                  <option>Meghalaya</option>
-                  <option>Mizoram</option>
-                  <option>Nagaland</option>
-                  <option>Orissa</option>
-                  <option>Puducherry (UT)</option>
-                  <option>Punjab</option>
-                  <option>Rajasthan</option>
-                  <option>Sikkim</option>
-                  <option>Tamil Nadu</option>
-                  <option>Telangana</option>
-                  <option>Tripura</option>
-                  <option>Uttar Pradesh</option>
-                  <option>Uttarakhand</option>
-                  <option>West Bengal</option>
-                  </select>
-
-                  <br>
-<input type="text" class="form-control" name="name" id="zip" placeholder="zip" value="" required="">
-<br>
-
-<button type="button" class="btn btn-primary" style="width: 100%;" onclick="clicked()" id="btn">Confirm Purchase</button>
-              <div id="test" style="display: none;">
-              <div id="paypal-button-container">
-              
+              <div class="cvv">
+                <label for="cvv" class="label-default">PicCode</label>
+                {% for d in datadd %}
+                <input type="number" name="cvv" id="zip" value="{{ d.zip }}" class="input-default">
+                {% empty %}
+                <input type="number" name="cvv" id="zip" placeholder="500033" class="input-default">
+                {% endfor %}
               </div>
+
+            </div>
+
+
+        </div>
+
+        <button class="btn btn-primary" id="btn" onclick="clicked()">
+          <b>Pay</b> ₹ <span id="payAmount">{{ total_price }}</span>
+          
+        </button>
+
+
+        <div id="test" style="display: none;">
+        <div id="paypal-button-container">
+        </div>
         
-        `;
+
+      </section>
+
+      <br>
+      <br>
+      <br>
+
+
+      <!--
+        - cart section
+      -->
+      <section class="cart" id="cdata">
+
+        <div class="cart-item-box">
+
+          <h2 class="section-heading">Order Summery</h2>
+
+          <!--FOR TAG-->
+          {% for c in cadata %}
+          <div class="product-card">
+
+            <div class="card">
+
+              <div class="img-box">
+                <img src="{{ c.image.url }}" alt="Green tomatoes" width="80px" class="product-img">
+              </div>
+
+              <div class="detail">
+
+                <h4 class="product-name">{{ c.name }}</h4>
+
+                <div class="wrapper">
+
+                  <div class="price">
+                    ₹ <span id="price">{{ c.price }}</span>
+                  </div>
+
+                  <div class="product-qty">
+                    quantity: {{ c.quantity }}
+                  </div>
+
+              
+
+                </div>
+
+              </div>
+
+              <button class="product-close-btn">
+                <a href="{% url 'delete' c.id %}" style="color: red;"><ion-icon name="close-outline"></ion-icon></a>
+              </button>
+
+            </div>
+
+            
+
+          </div>
+
+          {% endfor %}
+
+
+        </div>
+
+        <hr style="border-color: whitesmoke; size: 1px;">
+
+          <div class="amount">
+
+             <span id="price">Total price:  ₹ {{ total_price }}</span>
+            <div class="total">
+
+              <script src="https://www.paypal.com/sdk/js?client-id=AWOJXWE0FEern3ixCeeF7tsODtkVeQASnUKaeO145wM9ceJwGbxIRAsqAPGz94x5TyZbcN9Lf0cs_hch&currency=USD"></script>
+              
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+<br>
+<footer style="background-color: lightgray; padding-top: 30px; padding-bottom: 30px;"><center><a style="color: black;" href="https://www.youtube.com/watch?v=-gEV3znqu8E">design by @codewithsadee</a></center></footer>
+
+
+  <!--
+    - custom js link
+  -->
+
+  <script>
+
+var isMobile = /iPhone|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+    
       
   }
+
 
 
 
@@ -382,7 +762,6 @@ var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 function clicked(){
                     var uaddress = document.getElementById('address').value;
                     var ufirst = document.getElementById('first').value;
-                    var ulast = document.getElementById('last').value;
                     var uzip = document.getElementById('zip').value;
                     var ustatedata = document.getElementById('state').value;
 
@@ -397,10 +776,6 @@ function clicked(){
                       alert('Please fill out all the fields!')
                     }
 
-                  else{
-                    if (ulast.length < 1) {
-                      alert('Please fill out all the fields!')
-                    }
 
                   else{
                     if (uzip.length < 1) {
@@ -423,7 +798,9 @@ function clicked(){
                  
                                  
 
-}
+
+
+
 
 function getCookie(name) {
     var cookieValue = null;
@@ -467,7 +844,6 @@ function initPayPalButton() {
 
                   var addressdata = document.getElementById('address').value;
                   var first = document.getElementById('first').value;
-                  var last = document.getElementById('last').value;
                   var zip = document.getElementById('zip').value;
                   var statedata = document.getElementById('state').value;
 
@@ -493,25 +869,15 @@ initPayPalButton();
 
     
 
-                
 
-                    
-                </script>
-                    
+  </script>
 
+  <!--
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-        </div>
-      </div>
-    </div>
-  </div>
+</body>
 
-  
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
 </html>

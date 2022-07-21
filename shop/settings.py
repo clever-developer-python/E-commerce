@@ -138,11 +138,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'shop/static/')
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
-EMAIL_USE_TLS = True #tls encryption 
-EMAIL_HOST = 'SMTP' #example smtp.gmail.com for gmail email
-EMAIL_HOST_USER = 'EMAIL'
-EMAIL_HOST_PASSWORD = 'PASSWORD'
-EMAIL_PORT = 'PORT' #port
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'cfd1923eceb283'
+EMAIL_HOST_PASSWORD = '9a81d96824fd01'
+EMAIL_PORT = '2525'
