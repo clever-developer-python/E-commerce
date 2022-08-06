@@ -28,8 +28,26 @@ from django.core.mail import send_mail
 def home(request):
 
         if request.user.is_authenticated:
-            items = Items.objects.all()
-            return render(request, 'index.html',{'items':items})
+            if guestuser.objects.filter(name = request.user):
+                items = Items.objects.all()
+                return render(request, 'index.html',{'items':items})
+
+            else:
+
+                if address.objects.filter(user = request.user).exists():
+                    pass
+
+                else:
+                    return redirect('add')
+
+                if eget_email.objects.filter(user=  request.user).exists():
+                    pass
+
+                else:
+                    return redirect('dee')
+                items = Items.objects.all()
+                return render(request, 'index.html',{'items':items})
+
         else:
             if User.is_anonymous:
              alert = 'This Account is auto generated please note down the username the password is the same as the username or create an account!'
@@ -72,9 +90,26 @@ def detail(request, product_id):
     return render(request, 'detail.html',{'product':product})
 
 
-#signup
-def signup(request):
+#cart code
+def cart(request):
+    #checking if cart is empty
+    if ca.objects.filter(user = request.user).count() > 0:
+        items = ca.objects.filter(user = request.user)
+        #calculations
+        total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
+        print(total_price)
+        if request.method == 'POST':    
+                return redirect('checkout')
+            
+    
+        return render(request, 'cart.html',{'items':items,'total':total_price,'user':request.user})
+    
+    else:
+        return render(request, 'none.html')
 
+
+def signup(request):
+    
     if request.method == 'POST':
         # User has info and wants an account now!
         if request.POST.get('password1') == request.POST.get('password2'):
@@ -106,22 +141,8 @@ def login(request):
     else:
         return render(request, 'login.html')
 
-#cart code
-def cart(request):
-    #checking if cart is empty
-    if ca.objects.filter(user = request.user).count() > 0:
-        items = ca.objects.filter(user = request.user)
-        #calculations
-        total_price = ca.objects.filter(user = request.user).aggregate(total=Sum(F('price') * F('quantity')))['total']
-        print(total_price)
-        if request.method == 'POST':    
-                return redirect('checkout')
-            
-    
-        return render(request, 'cart.html',{'items':items,'total':total_price,'user':request.user})
-    
-    else:
-        return render(request, 'none.html')
+
+
     
     
 def log(request):
@@ -266,12 +287,26 @@ def ip_wrong(request):
 
 def checkout(request):
 
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('shiftlogin')
+
     if selected.objects.filter(user = request.user).count() > 0:
         pass
 
     else:
         if address.objects.filter(user = request.user).count() > 0:
             return redirect('selected')
+
+        else:
+            return redirect('add')
+
+
+    if eget_email.objects.filter(user = request.user).exists():
+            pass
+
+    else:
+        return redirect('dee')
+
 
     if ca.objects.filter(user = request.user).count() > 0:
         if confirmed.objects.filter(user = request.user).exists() or econfirmed.objects.filter(user = request.user).exists():
@@ -598,3 +633,5 @@ def selectadd(request):
         return redirect('checkout')
     
     return render(request, 'select.html', {'g':get_address})
+
+    
