@@ -1,8 +1,4 @@
 from __future__ import unicode_literals
-from audioop import add
-from pkgutil import get_data
-from select import select
-from unicodedata import name
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth
@@ -14,6 +10,7 @@ import random
 import string
 from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address,selected
 from django.core.mail import send_mail
+import re
 
 #list
 
@@ -39,12 +36,6 @@ def home(request):
 
                 else:
                     return redirect('add')
-
-                if eget_email.objects.filter(user=  request.user).exists():
-                    pass
-
-                else:
-                    return redirect('dee')
                 items = Items.objects.all()
                 return render(request, 'index.html',{'items':items})
 
@@ -112,15 +103,47 @@ def signup(request):
     
     if request.method == 'POST':
         # User has info and wants an account now!
+
+        regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+        if re.fullmatch(regex, request.POST.get('username')):
+                    pass
+        else:
+                return render(request, 'signup.html',{'error':'Email isnt valid'})
         if request.POST.get('password1') == request.POST.get('password2'):
             try:
                 user = User.objects.get(username=request.POST.get('username'))
                 return render(request, 'signup.html', {'error':'Username has already been taken'})
             except User.DoesNotExist:
                 user = User.objects.create_user(request.POST.get('username'), password=request.POST.get('password1'))
-
+                
                 auth.login(request,user)
-                return redirect('home')
+
+                code1 = random.randint(1,9)
+                code2 = random.randint(1,9)
+                code4 = random.randint(1,9)
+                code3 = random.randint(1,9)
+                code5 = random.randint(1,9)
+                code = f"{code1}{code2}{code3}{code4}{code5}"
+                print(code)
+                get_data_email = 'ninaadr26@gmail.com'
+                o = OTP()
+                o.key = code
+                o.ip = request.META.get('REMOTE_ADDR')
+                o.user = request.user
+                o.save()
+                send_mail(
+                'OTP code',
+                f'{code}',
+                'isanamessenger@gmail.com',
+                [get_data_email],
+                fail_silently=False,
+                )
+
+                g = get_email()
+                g.e_field = 'ninaadr26@gmail.com'
+                g.user = request.user
+                g.save()
+                return redirect('conf')
         else:
             return render(request, 'signup.html', {'error':'Passwords must match'})
     else:
@@ -155,35 +178,6 @@ def delete_item(request , id ):
     ca.objects.get(pk = id).delete()
     return redirect('cart')
 
-def email(request):
-    if request.method == "POST":
-         code1 = random.randint(1,9)
-         code2 = random.randint(1,9)
-         code4 = random.randint(1,9)
-         code3 = random.randint(1,9)
-         code5 = random.randint(1,9)
-         code = f"{code1}{code2}{code3}{code4}{code5}"
-         print(code)
-         get_data_email = request.POST.get('email-field')
-         o = OTP()
-         o.key = code
-         o.ip = request.META.get('REMOTE_ADDR')
-         o.user = request.user
-         o.save()
-         send_mail(
-         'OTP code',
-         f'{code}',
-         'isanamessenger@gmail.com',
-         [get_data_email],
-         fail_silently=False,
-         )
-
-         g = get_email()
-         g.e_field = 'ninaadr26@gmail.com'
-         g.user = request.user
-         g.save()
-         return redirect('conf')
-    return render(request, 'email.html')
 
 def email_sent(request):
     print(request.META['REMOTE_ADDR'])
@@ -301,11 +295,11 @@ def checkout(request):
             return redirect('add')
 
 
-    if eget_email.objects.filter(user = request.user).exists():
+    if confirmed.objects.filter(user = request.user).exists():
             pass
 
     else:
-        return redirect('dee')
+        return redirect('conf')
 
 
     if ca.objects.filter(user = request.user).count() > 0:
@@ -338,15 +332,6 @@ def checkout(request):
                     o.user = request.user
                     o.save()
 
-                    c.delete()
-                    for em in email_taken.objects.filter(user = request.user):
-                        em.delete()
-                    for ot in OTP.objects.filter(user = request.user):
-                        ot.delete()
-                    for ge in get_email.objects.filter(user = request.user):
-                        ge.delete()
-                    for con in confirmed.objects.filter(user = request.user):
-                        con.delete()
                     for a in selected.objects.filter(user = request.user):
                         a.delete()               
                     for c in ca.objects.filter(user = request.user):
@@ -471,115 +456,6 @@ def shiftsignup(request):
         # User wants to enter info
         return render(request, 'signup.html')
 
-
-def defaultemail(request):
-    if guestuser.objects.filter(name = request.user).exists():
-        return redirect('home')
-    if request.method == "POST":
-         code1 = random.randint(1,9)
-         code2 = random.randint(1,9)
-         code4 = random.randint(1,9)
-         code3 = random.randint(1,9)
-         code5 = random.randint(1,9)
-         code = f"{code1}{code2}{code3}{code4}{code5}"
-         print(code)
-         get_data_email = request.POST.get('email-field')
-         o = eOTP()
-         o.key = code
-         o.ip = request.META.get('REMOTE_ADDR')
-         o.user = request.user
-         o.save()
-         send_mail(
-         'OTP code',
-         f'{code}',
-         'isanamessenger@gmail.com',
-         [get_data_email],
-         fail_silently=False,
-         )
-
-         g = eget_email()
-         g.e_field = 'ninaadr26@gmail.com'
-         g.user = request.user
-         g.save()
-         return redirect('conf')
-    return render(request, 'defemail.html')
-
-def defemail_sent(request):
-    if guestuser.objects.filter(name = request.user).exists():
-        return redirect('home')
-    print(request.META['REMOTE_ADDR'])
-    if request.method == 'POST':
-        get_key = request.POST.get('key')
-        if eOTP.objects.filter(key = get_key).exists():
-            print('okay')
-            c = econfirmed()
-            c.confirmation = 'yes'
-            c.user = request.user
-            for g in eget_email.objects.filter(user = request.user):
-                c.email = g.e_field
-            c.save()
-
-            e = eemail_taken()
-            for gu in eget_email.objects.filter(user = request.user):
-                e.email_field = gu.e_field
-                e.user = request.user
-                e.save()
-
-        else:
-            print('security warning')
-            return redirect('wo')
-
-    return render(request, 'conf.html')
-        
-
-
-
-def defemail_wrong(request):
-    if guestuser.objects.filter(name = request.user).exists():
-        return redirect('home')
-    if request.method == 'POST':
-        get_key = request.POST.get('key')
-        if eOTP.objects.filter(key = get_key).exists():
-            print('okay')
-
-        else:
-            print('security warning')
-            return redirect('wo')
-        if eOTP.objects.filter(ip = request.META['REMOTE_ADDR']).exists():
-            print('okay')
-            c = confirmed()
-            c.confirmation = 'yes'
-            c.user = request.user
-            c.save()
-
-            e = eemail_taken()
-            for gu in eget_email.objects.filter(user = request.user):
-                e.email_field = gu.e_field
-                e.user = request.user
-                e.save()
-
-            
-
-def myemails(request):
-    if guestuser.objects.filter(name = request.user).exists():
-        return redirect('home')
-    if econfirmed.objects.filter(user = request.user).count() > 0:
-        print('yes')
-    try:
-        for c in eget_email.objects.filter(user = request.user):
-            print(c.e_field)
-            myemaildata = c.e_field
-            g = eget_email.objects.filter(user = request.user)
-            print('yes')
-            return render(request, 'deflist2.html',{'e':myemaildata,'g':g})
-
-    except:
-        return redirect('home')
-
-    else:
-            g = eget_email.objects.filter(user = request.user)
-            print('yes')
-            return render(request, 'deflist2.html',{'g':g})
 
 
 def myaddress(request):
