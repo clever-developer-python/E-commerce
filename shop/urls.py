@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
@@ -30,6 +31,7 @@ urlpatterns = [
     path('ssignup/', store.views.shiftsignup, name='shiftsign'),
     path('myadd/', store.views.myaddress, name='aee'),
     path('aa/',store.views.myaddressform, name='add'),
+    path('aa2/',store.views.myaddressform2, name='add2'),
     path('sa/',store.views.selectadd, name='selected')
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

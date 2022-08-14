@@ -26,8 +26,9 @@ def home(request):
 
         if request.user.is_authenticated:
             if guestuser.objects.filter(name = request.user):
+                username = 'guest'
                 items = Items.objects.all()
-                return render(request, 'index.html',{'items':items})
+                return render(request, 'index.html',{'items':items,'guest':username})
 
             else:
 
@@ -35,7 +36,7 @@ def home(request):
                     pass
 
                 else:
-                    return redirect('add')
+                    return redirect('add2')
                 items = Items.objects.all()
                 return render(request, 'index.html',{'items':items})
 
@@ -201,6 +202,7 @@ def email_sent(request):
                 e.email_field = gu.e_field
                 e.user = request.user
                 e.save()
+                return redirect('home')
 
             
 
@@ -360,8 +362,8 @@ def contact(request):
     return render(request, 'contact.html')
 
 
-def error_page(request , exception):
-    return render(request, '404.html', status=404)
+def error_page(request,exception ):
+    return render(request, '404.html')
     
     
 def order(request):
@@ -384,6 +386,11 @@ def adminpage(request):
 
 
 def shiftlogin(request):
+    if request.user.is_authenticated:
+            pass
+
+    else:
+        return redirect('login')
     if request.method == 'POST':
         user = auth.authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
         if user is not None:
@@ -420,9 +427,18 @@ def shiftlogin(request):
 
 
 def shiftsignup(request):
-    
+    if request.user.is_authenticated:
+        pass
+
+    else:
+        return redirect('signup')
     if request.method == 'POST':
         # User has info and wants an account now!
+        regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+        if re.fullmatch(regex, request.POST.get('username')):
+                    pass
+        else:
+                return render(request, 'signup.html',{'error':'Email isnt valid'})
         if request.POST.get('password1') == request.POST.get('password2'):
             try:
                 user = User.objects.get(username=request.POST.get('username'))
@@ -441,6 +457,35 @@ def shiftsignup(request):
                     print(request.POST.get('username'))
                     print(request.user)
                     auth.login(request, user)
+
+                    code1 = random.randint(1,9)
+                    code2 = random.randint(1,9)
+                    code4 = random.randint(1,9)
+                    code3 = random.randint(1,9)
+                    code5 = random.randint(1,9)
+                    code = f"{code1}{code2}{code3}{code4}{code5}"
+                    print(code)
+                    get_data_email = 'ninaadr26@gmail.com'
+                    o = OTP()
+                    o.key = code
+                    o.ip = request.META.get('REMOTE_ADDR')
+                    o.user = request.user
+                    o.save()
+                    send_mail(
+                    'OTP code',
+                    f'{code}',
+                    'isanamessenger@gmail.com',
+                    [get_data_email],
+                    fail_silently=False,
+                    )
+
+                    g = get_email()
+                    g.e_field = 'ninaadr26@gmail.com'
+                    g.user = request.user
+                    g.save()
+
+
+
                     for cartitem in ca.objects.filter(user = c.pre):
                             add = ca()
                             add.name = cartitem.name
@@ -449,7 +494,7 @@ def shiftsignup(request):
                             add.image = cartitem.image
                             add.user = request.user
                             add.save()
-                            return redirect('home')
+                            return redirect('conf')
         else:
             return render(request, 'signup.html', {'error':'Passwords must match'})
     else:
@@ -467,7 +512,7 @@ def myaddress(request):
 
 def myaddressform(request):
     if guestuser.objects.filter(name = request.user).exists():
-        return redirect('home')
+        return redirect('ae')
     if request.method == 'POST':
         a = address()
         a.address = request.POST.get('address')
@@ -509,5 +554,23 @@ def selectadd(request):
         return redirect('checkout')
     
     return render(request, 'select.html', {'g':get_address})
+
+
+def myaddressform2(request):
+    if address.objects.filter(user = request.user).count() > 0:
+        return redirect('home')
+    if guestuser.objects.filter(name = request.user).exists():
+        return redirect('home')
+    if request.method == 'POST':
+        a = address()
+        a.address = request.POST.get('address')
+        a.city = request.POST.get('city')
+        a.last = request.POST.get('last')
+        a.name = request.POST.get('first')
+        a.user = request.user
+        a.zip = request.POST.get('zip')
+        a.save()
+        return redirect('home')
+    return render(request, 'addad.html')
 
     
