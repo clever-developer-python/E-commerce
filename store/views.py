@@ -16,8 +16,8 @@ from mailjet_rest import Client
 #main backed of website project started on 31 jan 2022
 #home page backend code!
 
-api_key = '92cdd8cf0247854404d38fd5e335b452'
-api_secret = '682905addd62eabb7a24de2f2934b6a6'
+api_key = 'API KEY'
+api_secret = 'API SECRET'
 mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
 def home(request):
@@ -135,8 +135,8 @@ def signup(request):
                   'Messages': [
                     {
                       "From": {
-                        "Email": "isanamessenger@gmail.com",
-                        "Name": "Isana no reply"
+                        "Email": "SENDERS EMAIL",
+                        "Name": "COMPANY no reply"
                       },
                       "To": [
                         {
@@ -476,8 +476,6 @@ def shiftsignup(request):
                     code3 = random.randint(1,9)
                     code5 = random.randint(1,9)
                     code = f"{code1}{code2}{code3}{code4}{code5}"
-                   
-                    get_data_email = 'ninaadr26@gmail.com'
                     o = OTP()
                     o.key = code
                     o.ip = request.META.get('REMOTE_ADDR')
@@ -489,7 +487,7 @@ def shiftsignup(request):
                       'Messages': [
                         {
                           "From": {
-                            "Email": "isanamessenger@gmail.com",
+                            "Email": "SENDER EMAIL",
                             "Name": "Isana no reply"
                           },
                           "To": [
