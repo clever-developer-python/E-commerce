@@ -11,17 +11,15 @@ import string
 from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address,selected
 from django.core.mail import send_mail
 import re
-
-#list
-
-# deletable products [CHECK]
-#mobile frontend (checkout)
-#implement address and email data [CHECK]!
-#fix select page
-# today we worked on select page massive bug where the selected address would not work we have implemented a solution to this found in the function in this files around line 581
+from mailjet_rest import Client
 
 #main backed of website project started on 31 jan 2022
 #home page backend code!
+
+api_key = '92cdd8cf0247854404d38fd5e335b452'
+api_secret = '682905addd62eabb7a24de2f2934b6a6'
+mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+
 def home(request):
 
         if request.user.is_authenticated:
@@ -125,23 +123,37 @@ def signup(request):
                 code3 = random.randint(1,9)
                 code5 = random.randint(1,9)
                 code = f"{code1}{code2}{code3}{code4}{code5}"
-                print(code)
-                get_data_email = 'ninaadr26@gmail.com'
                 o = OTP()
                 o.key = code
                 o.ip = request.META.get('REMOTE_ADDR')
                 o.user = request.user
                 o.save()
-                send_mail(
-                'OTP code',
-                f'{code}',
-                'isanamessenger@gmail.com',
-                [get_data_email],
-                fail_silently=False,
-                )
+
+                usr = request.POST.get('username')
+                
+                data = {
+                  'Messages': [
+                    {
+                      "From": {
+                        "Email": "isanamessenger@gmail.com",
+                        "Name": "Isana no reply"
+                      },
+                      "To": [
+                        {
+                          "Email": f"{usr}",
+                          "Name": "Customer"
+                        }
+                      ],
+                      "Subject": "Otp Code",
+                      "TextPart": f"Your OTP is: {code} Thank you for using our products!  sincerly, Ninaad Lead Developer Of Isana If anyone else got this message i apoligze i am building a website and i must have sent this to the wrong email!" ,
+                      "CustomID": "AppGettingStartedTest"
+                    }
+                  ]
+                }
+                result = mailjet.send.create(data=data)
 
                 g = get_email()
-                g.e_field = 'ninaadr26@gmail.com'
+                g.e_field = f'{usr}'
                 g.user = request.user
                 g.save()
                 return redirect('conf')
@@ -464,23 +476,37 @@ def shiftsignup(request):
                     code3 = random.randint(1,9)
                     code5 = random.randint(1,9)
                     code = f"{code1}{code2}{code3}{code4}{code5}"
-                    print(code)
+                   
                     get_data_email = 'ninaadr26@gmail.com'
                     o = OTP()
                     o.key = code
                     o.ip = request.META.get('REMOTE_ADDR')
                     o.user = request.user
                     o.save()
-                    send_mail(
-                    'OTP code',
-                    f'{code}',
-                    'isanamessenger@gmail.com',
-                    [get_data_email],
-                    fail_silently=False,
-                    )
-
+                    usr = request.POST.get('username')
+                
+                    data = {
+                      'Messages': [
+                        {
+                          "From": {
+                            "Email": "isanamessenger@gmail.com",
+                            "Name": "Isana no reply"
+                          },
+                          "To": [
+                            {
+                              "Email": f"{usr}",
+                              "Name": "Customer"
+                            }
+                          ],
+                          "Subject": "Otp Code",
+                          "TextPart": f"Your OTP is: {code} Thank you for using our products!  sincerly, Ninaad Lead Developer Of Isana If anyone else got this message i apoligze i am building a website and i must have sent this to the wrong email!" ,
+                          "CustomID": "AppGettingStartedTest"
+                        }
+                      ]
+                    }
+                    result = mailjet.send.create(data=data)
                     g = get_email()
-                    g.e_field = 'ninaadr26@gmail.com'
+                    g.e_field = f'{usr}'
                     g.user = request.user
                     g.save()
 

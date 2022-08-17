@@ -138,8 +138,3 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'shop/static/')
 ]
 
-
-EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = 'cfd1923eceb283'
-EMAIL_HOST_PASSWORD = '9a81d96824fd01'
-EMAIL_PORT = '2525'
