@@ -477,7 +477,6 @@ def shiftsignup(request):
                     code5 = random.randint(1,9)
                     code = f"{code1}{code2}{code3}{code4}{code5}"
                    
-                    get_data_email = 'ninaadr26@gmail.com'
                     o = OTP()
                     o.key = code
                     o.ip = request.META.get('REMOTE_ADDR')
