@@ -37,10 +37,12 @@
 
   a{
     color: black;
+    outline: none;
   }
 
   a:hover{
     color: black;
+    text-decoration: none;
   }
 
   #Logout{
@@ -104,13 +106,6 @@
 
   </div>
     <br>
-    {% if alert %}
-
-    <div class="alert alert-warning" role="alert">
-      We have auto generated this account please not down the name {{ request.user }} and the password {{ request.user }} or <a style="color: blue" href="{% url 'signup' %}">create a new account</a>
-    </div>
-
-    {% endif %}
     <br>
     <br>
     <br>
@@ -137,7 +132,7 @@
               <img class="card-img-top" height="240px" src="{{ it.image.url }}" />
               <div class="card-body">
                 <p class="card-text"><a href="{% url 'detail' it.id %}" class="stretched-link">{{ it.name }}</a></p>
-                <p class="card-text">Price: ${{ it.price }}</p>
+                <p class="card-text">{{ it.price }} INR</p>
               </div>
             </div>
           </div>

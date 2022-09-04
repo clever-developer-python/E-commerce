@@ -40,7 +40,6 @@ def home(request):
 
         else:
             if User.is_anonymous:
-             alert = 'This Account is auto generated please note down the username the password is the same as the username or create an account!'
              items = Items.objects.all()
              S = 10 
              ran = ''.join(random.choices(string.ascii_uppercase + string.digits, k = S))    
@@ -51,7 +50,9 @@ def home(request):
                 g = guestuser()
                 g.name = request.user
                 g.save()
-                return render(request, 'index.html',{'items':items, 'alert':alert})       
+                if guestuser.objects.filter(name = request.user):
+                    username = 'guest'
+                return render(request, 'index.html',{'items':items,'guest':username})       
             return render(request, 'index.html')
 
         
