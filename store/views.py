@@ -16,8 +16,8 @@ from mailjet_rest import Client
 #main backed of website project started on 31 jan 2022
 #home page backend code!
 
-api_key = '92cdd8cf0247854404d38fd5e335b452'
-api_secret = '682905addd62eabb7a24de2f2934b6a6'
+api_key = 'API KEY'
+api_secret = 'API SECRET'
 mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
 def home(request):
@@ -78,7 +78,9 @@ def detail(request, product_id):
                 c.save()
             
             return redirect('cart')
-    return render(request, 'detail.html',{'product':product})
+    if guestuser.objects.filter(name = request.user):
+            username = 'guest'
+    return render(request, 'detail.html',{'product':product,'guest':username})
 
 
 #cart code
@@ -136,7 +138,7 @@ def signup(request):
                   'Messages': [
                     {
                       "From": {
-                        "Email": "isanamessenger@gmail.com",
+                        "Email": "email@gmail.com",
                         "Name": "Isana no reply"
                       },
                       "To": [
@@ -146,7 +148,7 @@ def signup(request):
                         }
                       ],
                       "Subject": "Otp Code",
-                      "TextPart": f"Your OTP is: {code} Thank you for using our products!  sincerly, Ninaad Lead Developer Of Isana If anyone else got this message i apoligze i am building a website and i must have sent this to the wrong email!" ,
+                      "TextPart": f"Your OTP is: {code} Thank you for using our products!  sincerly,  Lead Developer Of company If anyone else got this message i apoligze i am building a website and i must have sent this to the wrong email!" ,
                       "CustomID": "AppGettingStartedTest"
                     }
                   ]
@@ -404,6 +406,9 @@ def shiftlogin(request):
 
     else:
         return redirect('login')
+
+    if guestuser.objects.filter(name = request.user):
+            username = 'guest'
     if request.method == 'POST':
         user = auth.authenticate(username=request.POST.get('username'),password=request.POST.get('password'))
         if user is not None:
@@ -433,9 +438,9 @@ def shiftlogin(request):
 
             return redirect('home')
         else:
-            return render(request, 'login.html',{'error':'username or password is incorrect.'})
+            return render(request, 'login.html',{'error':'username or password is incorrect.','guest':username})
     else:
-        return render(request, 'login.html')
+        return render(request, 'login.html',{'guest':username})
 
 
 
@@ -489,7 +494,7 @@ def shiftsignup(request):
                       'Messages': [
                         {
                           "From": {
-                            "Email": "isanamessenger@gmail.com",
+                            "Email": "email@gmail.com",
                             "Name": "Isana no reply"
                           },
                           "To": [
@@ -499,7 +504,7 @@ def shiftsignup(request):
                             }
                           ],
                           "Subject": "Otp Code",
-                          "TextPart": f"Your OTP is: {code} Thank you for using our products!  sincerly, Ninaad Lead Developer Of Isana If anyone else got this message i apoligze i am building a website and i must have sent this to the wrong email!" ,
+                          "TextPart": f"Your OTP is: {code} Thank you for using our products!  sincerly,  Lead Developer Of company If anyone else got this message i apoligze i am building a website and i must have sent this to the wrong email!" ,
                           "CustomID": "AppGettingStartedTest"
                         }
                       ]

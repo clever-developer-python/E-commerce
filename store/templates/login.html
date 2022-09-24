@@ -14,6 +14,12 @@
 
     <style>
 
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+        body{
+          font-family: 'Open Sans', sans-serif;
+        }
+
         label{
             display: none;
         }
@@ -31,6 +37,16 @@
           color: black;
         }
 
+        .dropdown-toggle{
+          color: black;
+        }
+
+        .dropdown-toggle:hover{
+          color: black;
+          text-decoration: none;
+          outline: none;
+        }
+
 
     </style>
 
@@ -43,12 +59,18 @@
     </a>
     <form class="form-inline" action="{% url 'cart' %}">
       <div class="dropdown show">
-        <a class="dropdown-toggle" id="reg" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="dropdown-toggle" href="#"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {% if guest %}
+          guest
+          {% else %}
+
           {{ user }}
+
+          {% endif %}
         </a>
       
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Cart</a>
+          <a class="dropdown-item" href="{% url 'order' %}">My Orders</a>
           <a class="dropdown-item" id="Logout" href="{% url 'logout' %}">Logout</a>
         </div>
       </div>
@@ -62,28 +84,31 @@
       Bootstrap
     </a>
     <form class="form-inline" action="{% url 'cart' %}">
-      {% csrf_token %}
     <a href="{% url 'login' %}"> Login</a>
       <button class="btn" style="width: 100px; margin-left: 30px;"><img src="{% static 'shopping-cart.png' %}" width="40%"></button>
     </form>
   </nav>
   {% endif %}
-
     </header>
 
+<br>
+<br>
+<br>
+<br>
+<br>
 
 {% if error %}
-{{ error }}
-<br />
-<br />
-{% endif %}
+    <center>{{ error }}</center>
+    <br>
+    {% endif %}
+    <br>
 
 <form method="POST">
   {% csrf_token %}
 <center><div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">Login</h5>
-   <br>
+    <br>
    <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
     <br>
     <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password">
