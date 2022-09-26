@@ -9,15 +9,14 @@ import json
 import random
 import string
 from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address,selected
-from django.core.mail import send_mail
 import re
 from mailjet_rest import Client
 
 #main backed of website project started on 31 jan 2022
 #home page backend code!
 
-api_key = 'API KEY'
-api_secret = 'API SECRET'
+api_key = '92cdd8cf0247854404d38fd5e335b452'
+api_secret = '4826a8619aa310a5d637c8a04c61db34'
 mailjet = Client(auth=(api_key, api_secret), version='v3.1')
 
 def home(request):
@@ -78,8 +77,16 @@ def detail(request, product_id):
                 c.save()
             
             return redirect('cart')
-    if guestuser.objects.filter(name = request.user):
-            username = 'guest'
+    try:
+        if guestuser.objects.filter(name = request.user):
+                username = 'guest'
+
+    except:
+        pass
+
+    if UnboundLocalError:
+        return render(request, 'detail.html',{'product':product})
+
     return render(request, 'detail.html',{'product':product,'guest':username})
 
 
@@ -138,7 +145,7 @@ def signup(request):
                   'Messages': [
                     {
                       "From": {
-                        "Email": "email@gmail.com",
+                        "Email": "isanamessenger@gmail.com",
                         "Name": "Isana no reply"
                       },
                       "To": [
@@ -494,7 +501,7 @@ def shiftsignup(request):
                       'Messages': [
                         {
                           "From": {
-                            "Email": "email@gmail.com",
+                            "Email": "isanamessenger@gmail.com",
                             "Name": "Isana no reply"
                           },
                           "To": [
