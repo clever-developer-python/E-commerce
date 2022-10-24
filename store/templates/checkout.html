@@ -22,6 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
   </head>
 
 <body>
@@ -683,7 +684,7 @@ color: var(--onyx);
 
               <div class="detail">
 
-                <h4 class="product-name">{{ c.name }}</h4>
+                <h4 class="product-name" id="name">{{ c.name }}</h4>
 
                 <div class="wrapper">
 
@@ -692,10 +693,16 @@ color: var(--onyx);
                   </div>
 
                   <div class="product-qty">
-                    quantity: {{ c.quantity }}
-                  </div>
+                    <button id="decrement" onclick="decrement(id2='{{ c.id_data }}')">
+                      <ion-icon name="remove-outline"></ion-icon>
+                    </button>
 
-              
+                    <span id="{{ c.id_data }}">{{ c.quantity }}</span>
+
+                    <button id="increment" onclick="increment(id='{{ c.id_data }}')">
+                      <ion-icon name="add-outline"></ion-icon>
+                    </button>
+                  </div>
 
                 </div>
 
@@ -755,7 +762,27 @@ var isMobile = /iPhone|iPod|Android/i.test(navigator.userAgent);
   }
 
 
+function increment(id) {
+  var test  = document.getElementById(id).innerHTML;
+  var test2 = Number(test)
+  let final = test2 + 1
+  document.getElementById(id).innerHTML = final
+}
 
+
+function decrement(id2) {
+  var test3  = document.getElementById(id2).innerHTML;
+  var test4 = Number(test3)
+  if (test4 < 2) {
+    
+  }
+
+  else{
+    let final = test4 - 1
+    document.getElementById(id2).innerHTML = final
+  }
+
+}
 
 
 function clicked(){
@@ -795,10 +822,9 @@ function clicked(){
                   }
                   }
                  
-                                 
 
 
-
+console.log(document.getElementById('name'))
 
 
 function getCookie(name) {

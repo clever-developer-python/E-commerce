@@ -11,6 +11,7 @@ import string
 from .models import Items,cart as ca,orders,guestuser,OTP,confirmed,email_taken,get_email,prevaccount,eget_email,eemail_taken,econfirmed,eOTP,myaddres as address,selected
 import re
 from mailjet_rest import Client
+from django.http import JsonResponse
 
 #main backed of website project started on 31 jan 2022
 #home page backend code!
@@ -59,24 +60,7 @@ def home(request):
 #product detail page backend code!
 def detail(request, product_id):
     product = get_object_or_404(Items, pk=product_id)
-    if request.method == "POST":
 
-            print(product.name)
-
-            if ca.objects.filter(name = product.name, user=request.user).exists():
-                return redirect('cart')
-
-            else:
-
-                c = ca()
-                c.name = product.name
-                c.image = product.image
-                c.user = request.user
-                c.quantity = request.POST.get('quantity')
-                c.price = product.price
-                c.save()
-            
-            return redirect('cart')
     try:
         if guestuser.objects.filter(name = request.user):
                 username = 'guest'
@@ -380,9 +364,6 @@ def done(request):
        name = orders.objects.filter(user = request.user)
        return render(request, 'success.html', {'name':name})
 
-def contact(request):
-    return render(request, 'contact.html')
-
 
 def error_page(request,exception ):
     return render(request, '404.html')
@@ -395,15 +376,6 @@ def order(request):
     
     else:
         return render(request, 'none2.html')
-
-
-def adminpage(request):
-    if request.user.is_superuser:
-        var = orders.objects
-        return render(request, 'admincustom.html',{'items':var})
-
-    else:
-        raise Http404
 
 
 
@@ -612,3 +584,24 @@ def myaddressform2(request):
     return render(request, 'addad.html')
 
     
+
+def addr(request, product_id):
+            product = get_object_or_404(Items, pk=product_id)
+            print(product.name)
+
+            if ca.objects.filter(name = product.name, user=request.user).exists():
+                return JsonResponse({'added':'Item already in cart', 'alert':'danger'})
+
+            else:
+                
+                c = ca()
+                c.name = product.name
+                c.image = product.image
+                c.user = request.user
+                c.quantity = request.GET.get('send_data')
+                c.price = product.price
+                c.id_data = random.randint(1,6000)
+                c.save()
+                return JsonResponse({'added':'Item added Sucessfuly', 'alert':'success'})
+            
+

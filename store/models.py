@@ -13,6 +13,7 @@ class cart(models.Model):
     price = models.IntegerField(blank=True,null=True)
     quantity = models.IntegerField(blank=True,null=True)
     image = models.ImageField(upload_to = 'cart/',null=True)
+    id_data = models.CharField(blank=True, null=True,max_length=532)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True) 
 
 

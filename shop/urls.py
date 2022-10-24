@@ -20,19 +20,18 @@ urlpatterns = [
     path('delete-item/<int:id>' , store.views.delete_item, name="delete" ), 
     path('checkout' , store.views.checkout, name="checkout" ),
     path('success/', store.views.done, name='su'),
-    path('contact/', store.views.contact, name='contact'),
     path('order/', store.views.order, name='order'),
     path('conf/', store.views.email_sent, name='conf'),
     path('wrong_ip/', store.views.ip_wrong, name='wi'),
     path('wrong_otp/', store.views.email_wrong, name='wo'),
     path('Email_confirmed/', store.views.correct_otp, name='d'),
-    path('adminpage/',store.views.adminpage, name='adminpage'),
     path('slogin/', store.views.shiftlogin, name='shiftlogin'),
     path('ssignup/', store.views.shiftsignup, name='shiftsign'),
     path('myadd/', store.views.myaddress, name='aee'),
     path('aa/',store.views.myaddressform, name='add'),
     path('aa2/',store.views.myaddressform2, name='add2'),
-    path('sa/',store.views.selectadd, name='selected')
+    path('sa/',store.views.selectadd, name='selected'),
+    path('r/<int:product_id>',store.views.addr,name="ad"),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
