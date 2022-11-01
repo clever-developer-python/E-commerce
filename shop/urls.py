@@ -32,6 +32,7 @@ urlpatterns = [
     path('aa2/',store.views.myaddressform2, name='add2'),
     path('sa/',store.views.selectadd, name='selected'),
     path('r/<int:product_id>',store.views.addr,name="ad"),
+    path('r/uq',store.views.uq,name="uq"),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

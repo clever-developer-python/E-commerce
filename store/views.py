@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404,HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.db.models import Sum,F
@@ -345,8 +345,6 @@ def checkout(request):
                     for c in ca.objects.filter(user = request.user):
                         c.delete()
 
-
-
             
             return render(request, 'checkout.html', {'total_price':total_price,'dataemail':dataemail,'datadd':datadd,'cadata':cadata})
             
@@ -605,3 +603,23 @@ def addr(request, product_id):
                 return JsonResponse({'added':'Item added Sucessfuly', 'alert':'success'})
             
 
+def uq(request):
+    body = json.loads(request.body)
+    try:
+        list_of_dict_values = list(body['test'])
+        c = ca.objects.get(user = request.user, id_data = list_of_dict_values[0])
+        c.quantity = list_of_dict_values[1]
+        c.save()
+        if len(list_of_dict_values) == 4:
+            print(list_of_dict_values[0])
+            print(list_of_dict_values[2])
+            print(list_of_dict_values[1])
+            print(list_of_dict_values[3])
+
+        else:
+            print(list_of_dict_values[0])
+            print(list_of_dict_values[1])
+
+    except:
+        pass
+   

@@ -670,8 +670,7 @@ color: var(--onyx);
 
         <div class="cart-item-box">
 
-          <h2 class="section-heading">Order Summery</h2>
-
+          <h2 class="section-heading">Order Summary</h2>
           <!--FOR TAG-->
           {% for c in cadata %}
           <div class="product-card">
@@ -693,13 +692,13 @@ color: var(--onyx);
                   </div>
 
                   <div class="product-qty">
-                    <button id="decrement" onclick="decrement(id2='{{ c.id_data }}')">
+                    <button id="decrement" onclick="decrement(id2='{{ c.id_data }}'), org='{{ c.quantity }}'">
                       <ion-icon name="remove-outline"></ion-icon>
                     </button>
 
                     <span id="{{ c.id_data }}">{{ c.quantity }}</span>
 
-                    <button id="increment" onclick="increment(id='{{ c.id_data }}')">
+                    <button id="increment" onclick="increment(id='{{ c.id_data }}'), org='test' ">
                       <ion-icon name="add-outline"></ion-icon>
                     </button>
                   </div>
@@ -719,9 +718,10 @@ color: var(--onyx);
           </div>
 
           {% endfor %}
-
-
+    
+          <button onclick="update()" id="btn_update" style="background-color: rgb(65, 118, 229); width: 100%; color: white; font-size: 12px; display: none; margin-bottom: 30px;">Update Cart</button>
         </div>
+        
 
         <hr style="border-color: whitesmoke; size: 1px;">
 
@@ -761,24 +761,83 @@ var isMobile = /iPhone|iPod|Android/i.test(navigator.userAgent);
       
   }
 
+let uq = []  
 
-function increment(id) {
-  var test  = document.getElementById(id).innerHTML;
-  var test2 = Number(test)
-  let final = test2 + 1
-  document.getElementById(id).innerHTML = final
+
+function update() {
+    var url = '/r/uq'
+        return fetch(url, {
+          method: 'POST', 
+          headers: {
+            'content-type': 'application/json',
+            'X-CSRFToken': csrftoken,
+          },
+          body: JSON.stringify({
+            test: uq
+          })
+        }).then(function () {
+
+          window.location.href = "http://127.0.0.1:8000/cart/";
+
+        })
+
 }
 
 
-function decrement(id2) {
+function increment(id,org) {
+  var test  = document.getElementById(id).innerHTML;
+  var test2 = Number(test)
+  var orgdata = Number(org)
+  if (orgdata == test2) {
+      
+  }
+
+  else{
+    document.getElementById('btn_update').style.display = "";
+  }
+
+  if (test2 == 100) {
+
+  }
+
+  else{
+    let final = test2 + 1
+    if (uq.includes(id)) {
+      let index_data = uq.indexOf(id)
+      uq.splice(index_data)
+
+    }
+    uq.push(id,final)
+    
+
+    document.getElementById(id).innerHTML = final
+  }
+}
+
+
+function decrement(id2,org) {
   var test3  = document.getElementById(id2).innerHTML;
   var test4 = Number(test3)
+  if (org == test4) {
+      
+    }
+  
+    else{
+      document.getElementById('btn_update').style.display = "";
+      console.log('data isnt the same')
+    }
   if (test4 < 2) {
     
   }
 
   else{
     let final = test4 - 1
+    if (uq.includes(id2)) {
+      let index_data = uq.indexOf(id2)
+      uq.splice(index_data)
+
+    }
+    uq.push(id2,final)
     document.getElementById(id2).innerHTML = final
   }
 
