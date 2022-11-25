@@ -608,21 +608,14 @@ def uq(request):
     try:
         list_of_dict_values = list(body['test'])
         if len(list_of_dict_values) == 4:
-            print(list_of_dict_values[0])
-            print(list_of_dict_values[2])
-            print(list_of_dict_values[1])
-            print(list_of_dict_values[3])
             c = ca.objects.get(user = request.user, id_data = list_of_dict_values[0])
             c.quantity = list_of_dict_values[1]
             c.save()
             c2 = ca.objects.get(user = request.user, id_data = list_of_dict_values[2])
             c2.quantity = list_of_dict_values[3]
             c2.save()
-
-
+            
         else:
-            print(list_of_dict_values[0])
-            print(list_of_dict_values[1])
             c3 = ca.objects.get(user = request.user, id_data = list_of_dict_values[0])
             c3.quantity = list_of_dict_values[1]
             c3.save()
