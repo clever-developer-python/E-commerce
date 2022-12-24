@@ -11,20 +11,20 @@ handler400, handler403, handler404, handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', store.views.home, name="home"),
-    path('<int:product_id>', store.views.detail, name='detail'),
-    path('login/', store.views.login, name='login'),
-    path('signup/', store.views.signup, name='signup'),
-    path('cart/', store.views.checkout, name='cart'),
+    path('', store.views.home, name="home"), #fix
+    path('<int:product_id>', store.views.detail, name='detail'), #fix
+    path('login/', store.views.login, name='login'),#fix
+    path('signup/', store.views.signup, name='signup'),#fix
+    path('cart/', store.views.checkout, name='cart'),#fix
     path('logout/', store.views.log, name="logout"),
     path('delete-item/<int:id>' , store.views.delete_item, name="delete" ), 
-    path('checkout' , store.views.checkout, name="checkout" ),
+    path('checkout' , store.views.checkout, name="checkout" ), #fix
     path('success/', store.views.done, name='su'),
-    path('order/', store.views.order, name='order'),
-    path('conf/', store.views.email_sent, name='conf'),
-    path('wrong_ip/', store.views.ip_wrong, name='wi'),
-    path('wrong_otp/', store.views.email_wrong, name='wo'),
-    path('Email_confirmed/', store.views.correct_otp, name='d'),
+    path('order/', store.views.order, name='order'),#fix
+    path('conf/', store.views.email_sent, name='conf'),#fix
+    path('wrong_ip/', store.views.ip_wrong, name='wi'),#fix
+    path('wrong_otp/', store.views.email_wrong, name='wo'),#fix
+    path('Email_confirmed/', store.views.correct_otp, name='d'),#fix
     path('slogin/', store.views.shiftlogin, name='shiftlogin'),
     path('ssignup/', store.views.shiftsignup, name='shiftsign'),
     path('myadd/', store.views.myaddress, name='aee'),
