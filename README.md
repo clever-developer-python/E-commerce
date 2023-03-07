@@ -15,7 +15,3 @@ Javascript
 Html(mainly bootstrap framework)
 Css
 
-
-My dad when he saw the website:
-
-![12739348379](https://user-images.githubusercontent.com/98737622/187661899-b70b994c-c777-4c29-8daf-9f8d2cc4a6ee.jpeg)
