@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 import store.views
@@ -10,7 +10,8 @@ handler400, handler403, handler404, handler500
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('9jdzwQqS8^ycX9CKY8^98l0U!&/', admin.site.urls),
     path('', store.views.home, name="home"), #fix
     path('<int:product_id>', store.views.detail, name='detail'), #fix
     path('login/', store.views.login, name='login'),#fix
