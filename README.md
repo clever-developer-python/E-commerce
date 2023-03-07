@@ -5,7 +5,7 @@ django E-commerce project started on 31 january 2022 will be used for a real com
 you may commit after mentioning changes!
 
 
-thank you for taking the time to read this - Doubtingeye352
+thank you for taking the time to read this - Ninaad Ravi
 
 
 Languages the project speaks:
